@@ -75,6 +75,7 @@ void initialize() {
 	// });
 	
 	//color sort for red
+	bool color_sorting=false;
 	pros::Task color_sort([&] (){
 
 		while (true){
@@ -84,10 +85,9 @@ void initialize() {
 			if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
 				if ((current_hue > 0 && current_hue < 10)||current_hue>343) {
 					top_intake.move(-127);
+					color_sorting=true;
 					pros::delay(270);
-				}
-				else {
-					top_intake.move(105);
+					color_sorting=false;
 				}
 			}
 			pros::delay(50);
@@ -287,7 +287,11 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			front_intake.move(127);
-			intake_2.move(101);
+			intake_2.move(100);
+			if(color_sorting==false)
+			{
+				top_intake.move(127);
+			}
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
