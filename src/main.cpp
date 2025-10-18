@@ -284,14 +284,18 @@ void opcontrol() {
 	Low.set_value(true);
 	while (true) {
 		// if (!is_sorting) {
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&color_sorting==false)
+		{
+			top_intake.move(127);
+		}
+		else if(!controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && color_sorting==false)
+		{
+			top_intake.move(0);
+		}
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			front_intake.move(127);
 			intake_2.move(100);
-			if(color_sorting==false)
-			{
-				top_intake.move(127);
-			}
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
@@ -340,13 +344,13 @@ void opcontrol() {
 		{
 			loadertech=true;
 			matchload.set_value(true);
-			pros::delay(25);
+			pros::delay(50);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)&&loadertech==true)
 		{
 			loadertech=false;
 			matchload.set_value(false);
-			pros::delay(25);
+			pros::delay(50);
 		}
 
 		bool matchload_pressed = controller.get_digital(DIGITAL_A);
@@ -371,7 +375,6 @@ void opcontrol() {
 			chassis.arcade(leftY, rightX);
 		}
 		//}
-		pros::delay(25
-		); // 25 ms = 0.025 seconds
+		pros::delay(25); // 25 ms = 0.025 seconds
 	}
 }
