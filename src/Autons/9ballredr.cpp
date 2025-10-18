@@ -12,7 +12,7 @@ void pid_test() {
     chassis.moveToPose(-17, -28, 120,1200, {.minSpeed=70});
     chassis.moveToPoint(-5.5, -45, 1400,{.maxSpeed=90});
     chassis.moveToPoint(-30,-32,1400,{.forwards=false});
-    chassis.moveToPose(-52, -50, 2, 1800, {.minSpeed=90,.earlyExitRange=2}, false);
+    chassis.moveToPose(-52, -50, 270, 1800, {.minSpeed=90,.earlyExitRange=2}, false);
     matchload.set_value(true);
     chassis.moveToPoint(-56.5,-50,1500);
     chassis.moveToPoint(-54,-50,500,{.forwards=false});
