@@ -13,6 +13,7 @@ bool outtake = false;
 bool matchload_state = false;
 bool prev_matchload_state = false;
 bool color_sort_on = false;
+bool color_sorting=false;
 
 //red color hues (0-10 and 343<)
 
@@ -75,7 +76,6 @@ void initialize() {
 	// });
 	
 	//color sort for red
-	bool color_sorting=false;
 	pros::Task color_sort([&] (){
 
 		while (true){
