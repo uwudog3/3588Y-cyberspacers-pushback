@@ -76,23 +76,23 @@ void initialize() {
 	// });
 	
 	//color sort for red
-	pros::Task color_sort([&] (){
+	// pros::Task color_sort([&] (){
 
-		while (true){
+	// 	while (true){
 
-			double current_hue = color_sensor.get_hue();
+	// 		double current_hue = color_sensor.get_hue();
 
-			if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
-				if ((current_hue > 0 && current_hue < 10)||current_hue>343) {
-					top_intake.move(-127);
-					color_sorting=true;
-					pros::delay(270);
-					color_sorting=false;
-				}
-			}
-			pros::delay(50);
-		}
-	});
+	// 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
+	// 			if ((current_hue > 0 && current_hue < 10)||current_hue>343) {
+	// 				top_intake.move(-127);
+	// 				color_sorting=true;
+	// 				pros::delay(270);
+	// 				color_sorting=false;
+	// 			}
+	// 		}
+	// 		pros::delay(50);
+	// 	}
+	// });
 
 	// chassis.setPose(0,0,0);
 	chassis.setPose(positionFromRaycast(back_dist.get()*MM_TO_IN, BACK_DIST_OFFSET, WEST),positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH), 90);
@@ -282,6 +282,7 @@ void opcontrol() {
 	// bool outake=true;
 	bool loadertech=false;
 	Low.set_value(true);
+	bool swiper=false; 
 	while (true) {
 		// if (!is_sorting) {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&color_sorting==false)
@@ -295,12 +296,12 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			front_intake.move(127);
-			intake_2.move(100);
+			intake_2.move(-100);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
 			front_intake.move(-81);
-			intake_2.move( 50);
+			intake_2.move( -50);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
@@ -310,7 +311,7 @@ void opcontrol() {
 			pros::delay(50);
 			baserightmiddle.move(127);
 			baseleftmiddle.move(127);
-			intake_2.move(127);
+			intake_2.move(-127);
 			front_intake.move(-40);
 			top_intake.move(127);
 			// outtake=true;
@@ -322,7 +323,7 @@ void opcontrol() {
 			pros::delay(50);
 			baseleftmiddle.move(-127);
 			baserightmiddle.move(110);
-			intake_2.move(110);
+			intake_2.move(-110);
 			front_intake.move(-40);
 			top_intake.move(-127);
 		}
@@ -339,7 +340,18 @@ void opcontrol() {
 			baserightmiddle.move(0);
 			// outtake=false;
 		}
-		
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)&&swiper==false)
+		{
+			swiper=true;
+			Swiper.set_value(true);
+			pros::delay(50);
+		}
+		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)&&swiper==true)
+		{
+			swiper=false;
+			Swiper.set_value(false);
+			pros::delay(50);
+		}
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)&&loadertech==false)
 		{
 			loadertech=true;
@@ -374,7 +386,6 @@ void opcontrol() {
 		
 			chassis.arcade(leftY, rightX);
 		}
-		//}
 		pros::delay(25); // 25 ms = 0.025 seconds
 	}
 }
