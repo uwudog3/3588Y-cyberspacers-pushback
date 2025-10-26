@@ -3,6 +3,7 @@
 #include "lemlib/chassis/chassis.hpp"
 #include "pros/adi.hpp"
 #include "pros/distance.hpp"
+#include "pros/motor_group.hpp"
 #include "pros/optical.hpp"
 #include "pros/misc.hpp"
 extern lemlib::Chassis chassis;
@@ -21,3 +22,5 @@ extern pros::Distance front_dist;
 extern pros::Distance left_dist;
 extern pros::Distance right_dist;
 extern pros::ADIDigitalOut Swiper;
+extern pros::MotorGroup right_mg;
+extern pros::MotorGroup left_mg;

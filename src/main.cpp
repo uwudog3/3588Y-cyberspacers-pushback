@@ -322,10 +322,10 @@ void opcontrol() {
 			Low.set_value(false);
 			pros::delay(50);
 			baseleftmiddle.move(-127);
-			baserightmiddle.move(110);
-			intake_2.move(-110);
+			baserightmiddle.move(80);
+			intake_2.move(-80);
 			front_intake.move(-40);
-			top_intake.move(-127);
+			top_intake.move(-75);
 		}
 		//  if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X))
 		else
