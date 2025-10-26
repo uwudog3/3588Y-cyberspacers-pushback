@@ -6,7 +6,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int AUTON_NUM = 1;
+int AUTON_NUM = 3;
 bool is_sorting = false;
 
 bool outtake = false;
@@ -257,9 +257,14 @@ void autonomous() {
 	switch(AUTON_NUM)
 	{
 		case 1:
-			pid_test();
+			nineballredr();
 			break;
-
+		case 2:
+			nineballredl();
+			break;
+		case 3:
+			sixballredr();
+			break;
 	}
 }
 

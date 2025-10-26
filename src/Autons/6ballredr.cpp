@@ -1,7 +1,7 @@
-#include "drive.hpp"
 #include "main.h"
+#include "drive.hpp"
 
-void nineballredr() {
+void sixballredr() {
     Low.set_value(true);
     Switch.set_value(false);
     Swiper.set_value(false);
@@ -12,6 +12,11 @@ void nineballredr() {
     top_intake.move(0);
     chassis.turnToPoint(-17, -25, 400,{},false);
     chassis.moveToPose(-15, -28, 120,1200, {.minSpeed=70},false);
+    chassis.turnToPoint(0, 0, 500);
+    chassis.moveToPoint(-10, -10, 500,{.maxSpeed=100});
+    front_intake.move(-81);
+    intake_2.move(-50);
+    pros::delay(1000);
     chassis.moveToPoint(-5.9, -45.5, 1400,{.maxSpeed=90},false);
     chassis.moveToPoint(-30,-32,800,{.forwards=false,.minSpeed=115},false);
     chassis.moveToPoint(-63,-52,900,{.maxSpeed=86,.minSpeed=75},false);
@@ -27,24 +32,4 @@ void nineballredr() {
 	intake_2.move(-127);
 	front_intake.move(-30);
 	top_intake.move(127);
-    // pros::delay(2500);
-    // Low.set_value(true);
-    // Swiper.set_value(true);
-    // matchload.set_value(false);
-    // pros::delay(50);
-    // baserightmiddle.move(0);
-    // baseleftmiddle.move(0);
-    // front_intake.move(127);
-    // top_intake.move(0);
-    // intake_2.move(0);
-    // chassis.moveToPoint(-50,-30,900,{},false);
-    // chassis.turnToHeading(260, 600);
-    // right_mg.move(127);
-    // left_mg.move(127);
-    // pros::delay(100);
-    // Swiper.set_value(false);
-    // pros::delay(420);
-    // right_mg.move(0);
-    // left_mg.move(0);
-    // front_intake.move(0);
 }

@@ -1,3 +1,5 @@
 #pragma once
 
-extern void pid_test();
+extern void nineballredr();
+extern void nineballredl();
+extern void sixballredr();
