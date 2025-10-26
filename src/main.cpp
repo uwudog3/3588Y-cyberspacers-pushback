@@ -56,24 +56,25 @@ void initialize() {
 
 
 	//color sort for blue
-	// pros::Task color_sort_blue([&] (){
+	pros::Task color_sort_blue([&] (){
 
-	// 	while (true){
+		while (true){
 
-	// 		double current_hue = color_sensor.get_hue();
+			double current_hue = color_sensor.get_hue();
 
-	// 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
-	// 			if ((current_hue > 0 && current_hue < 10)||current_hue > 343) {
-	// 				top_intake.move(127);
-	// 				pros::delay(300);
-	// 			}
-	// 			else {
-	// 				top_intake.move(-120);
-	// 			}
-	// 		}
-	// 	}
+			if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
+				//if its blue, it outakes out
+				if ((current_hue > 0 && current_hue < 10)||current_hue > 343) {
+					top_intake.move(-127);
+					color_sorting=true;
+					pros::delay(270);
+					color_sorting=false;
+				}
+			}
+			pros::delay(50);
+		}
 
-	// });
+	});
 	
 	//color sort for red
 	// pros::Task color_sort([&] (){
@@ -83,6 +84,7 @@ void initialize() {
 	// 		double current_hue = color_sensor.get_hue();
 
 	// 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
+	// 			//if its red, it outakes out
 	// 			if ((current_hue > 0 && current_hue < 10)||current_hue>343) {
 	// 				top_intake.move(-127);
 	// 				color_sorting=true;
@@ -288,6 +290,7 @@ void opcontrol() {
 	bool loadertech=false;
 	Low.set_value(true);
 	bool swiper=false; 
+	bool endgame=false;
 	while (true) {
 		// if (!is_sorting) {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&color_sorting==false)
@@ -301,12 +304,16 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			front_intake.move(127);
-			intake_2.move(-100);
+			intake_2.move(-120);
+		}
+		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+		{
+			intake_2.move(-30);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
 			front_intake.move(-81);
-			intake_2.move( -50);
+			intake_2.move( -30);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
@@ -323,14 +330,9 @@ void opcontrol() {
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 		{
-			pto=true;
-			Low.set_value(false);
-			pros::delay(50);
-			baseleftmiddle.move(-127);
-			baserightmiddle.move(80);
-			intake_2.move(-80);
-			front_intake.move(-40);
-			top_intake.move(-75);
+			intake_2.move(-50);
+			front_intake.move(-20);
+			top_intake.move(-25);
 		}
 		//  if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X))
 		else
@@ -344,6 +346,18 @@ void opcontrol() {
 			intake_2.move(0);
 			baserightmiddle.move(0);
 			// outtake=false;
+		}
+		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)&&endgame==false)
+		{
+			double_park.set_value(true);
+			pros::delay(20);
+			endgame=true;
+		}
+		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y)&&endgame==true)
+		{
+			double_park.set_value(false);
+			pros::delay(20);
+			endgame=false;
 		}
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_A)&&swiper==false)
 		{
@@ -391,6 +405,6 @@ void opcontrol() {
 		
 			chassis.arcade(leftY, rightX);
 		}
-		pros::delay(25); // 25 ms = 0.025 seconds
+		pros::delay(20); // 25 ms = 0.025 seconds
 	}
 }

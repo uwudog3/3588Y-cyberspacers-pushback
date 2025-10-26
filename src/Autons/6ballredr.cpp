@@ -12,8 +12,8 @@ void sixballredr() {
     top_intake.move(0);
     chassis.turnToPoint(-17, -25, 400,{},false);
     chassis.moveToPose(-15, -28, 120,1200, {.minSpeed=70},false);
-    chassis.turnToPoint(0, 0, 500);
-    chassis.moveToPoint(-10, -10, 500,{.maxSpeed=100});
+    chassis.turnToPoint(0, 0, 500,{},false);
+    chassis.moveToPoint(-10, -10, 500,{.maxSpeed=100},false);
     front_intake.move(-81);
     intake_2.move(-50);
     pros::delay(1000);
