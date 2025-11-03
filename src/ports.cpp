@@ -6,6 +6,7 @@ pros::Motor front_intake(11);
 pros::Motor top_intake(8);
 pros::Motor intake_2(9);
 pros::Motor baserightmiddle(18);
+//inakeing into basket at normal
 pros::Motor baseleftmiddle(-15);
 
 pros::Optical color_sensor(4);

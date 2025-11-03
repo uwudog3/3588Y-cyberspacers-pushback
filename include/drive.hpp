@@ -27,3 +27,7 @@ extern pros::Distance front_dist;
 extern pros::Distance back_dist;
 extern pros::Distance left_dist;
 extern pros::Distance right_dist;
+extern pros::ADIDigitalOut Swiper;
+extern pros::MotorGroup right_mg;
+extern pros::MotorGroup left_mg;
+extern pros::ADIDigitalOut double_park;

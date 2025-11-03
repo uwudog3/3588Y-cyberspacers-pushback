@@ -74,14 +74,15 @@ void initialize() {
 	// 		double current_hue = color_sensor.get_hue();
 
 	// 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
+	// 			//if its blue, it outakes out
 	// 			if ((current_hue > 0 && current_hue < 10)||current_hue > 343) {
-	// 				top_intake.move(127);
-	// 				pros::delay(300);
-	// 			}
-	// 			else {
-	// 				top_intake.move(-120);
+	// 				top_intake.move(-127);
+	// 				color_sorting=true;
+	// 				pros::delay(270);
+	// 				color_sorting=false;
 	// 			}
 	// 		}
+	// 		pros::delay(25);
 	// 	}
 
 	// });
@@ -268,7 +269,13 @@ void autonomous() {
 	switch(AUTON_NUM)
 	{
 		case 1:
-			pid_test();
+			nineballredr();
+			break;
+		case 2:
+			nineballredl();
+			break;
+		case 3:
+			sixballredr();
 			break;
 		case 2:
 			auton1();
@@ -312,12 +319,16 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			front_intake.move(127);
-			intake_2.move(100);
+			intake_2.move(-120);
+		}
+		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+		{
+			intake_2.move(-30);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
-			front_intake.move(-81);
-			intake_2.move( 50);
+			front_intake.move(-40);
+			intake_2.move( -25);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
@@ -327,7 +338,7 @@ void opcontrol() {
 			pros::delay(50);
 			baserightmiddle.move(127);
 			baseleftmiddle.move(127);
-			intake_2.move(127);
+			intake_2.move(-127);
 			front_intake.move(-40);
 			top_intake.move(127);
 			// outtake=true;
@@ -415,7 +426,6 @@ void opcontrol() {
 		
 			chassis.arcade(leftY, rightX);
 		}
-		//}
-		pros::delay(25); // 25 ms = 0.025 seconds
+		pros::delay(15);
 	}
 }
