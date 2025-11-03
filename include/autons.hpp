@@ -2,4 +2,4 @@
 
 extern void nineballredr();
 extern void nineballredl();
-extern void sixballredr();
+extern void sevballredr();

@@ -1,10 +1,10 @@
 #include "main.h"
 #include "drive.hpp"
 
-void sixballredr() {
-    Low.set_value(true);
-    Switch.set_value(false);
-    Swiper.set_value(false);
+void sevballredr() {
+    pto.set_value(true);
+    hood.set_value(false);
+    descore.set_value(false);
     pros::delay(50);
     chassis.setPose(-72+(back_dist.get()*MM_TO_IN)+BACK_DIST_OFFSET, -72+(right_dist.get()*MM_TO_IN)+RIGHT_DIST_OFFSET, 90);
     front_intake.move(120);
@@ -24,8 +24,8 @@ void sixballredr() {
     matchload.set_value(true);
     pros::delay(1500);
     chassis.moveToPoint(-23.75,-52,1200,{.forwards=false,.maxSpeed=95,.earlyExitRange=0.3},false);
-    Low.set_value(false);
-	Switch.set_value(true);
+    pto.set_value(false);
+	hood.set_value(true);
     pros::delay(50);
 	baserightmiddle.move(127);
 	baseleftmiddle.move(127);
