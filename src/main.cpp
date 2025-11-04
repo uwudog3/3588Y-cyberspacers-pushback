@@ -7,23 +7,27 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int AUTON_NUM = REDLEFT9;
+int AUTON_NUM = 2;
 bool is_sorting = false;
 
 bool outtake = false;
 
 bool matchload_state = false;
-bool trap_state = false;
+bool odom_state = false;
 bool parking_state = false;
 bool descore_state = false;
+bool intake_up_state = false;
 
 bool prev_matchload_state = false;
-bool prev_trap_state = false;
+bool prev_odom_state = false;
 bool prev_parking_state = false;
 bool prev_descore_state = false;
+bool prev_intake_up_state = false;
+bool prev_color_state = false;
 
 bool color_sort_on = false;
 bool color_sorting=false;
+bool color_state = false;
 
 //red color hues (0-10 and 343<)
 
@@ -66,26 +70,45 @@ void initialize() {
 	//color sort task
 
 
-	//color sort for blue
-	// pros::Task color_sort_blue([&] (){
+	// color sort for blue
+	pros::Task color_sort_blue([&] (){
 
-	// 	while (true){
+		while (true){
 
-	// 		double current_hue = color_sensor.get_hue();
+			double current_hue = color_sensor.get_hue();
 
-	// 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
-	// 			//if its blue, it outakes out
-	// 			if ((current_hue > 0 && current_hue < 10)||current_hue > 343) {
-	// 				top_intake.move(-127);
-	// 				color_sorting=true;
-	// 				pros::delay(270);
-	// 				color_sorting=false;
-	// 			}
-	// 		}
-	// 		pros::delay(25);
-	// 	}
+			if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
+				if(color_state){
+					if ((current_hue > 0 && current_hue < 10)||current_hue > 343) 
+					{
+						top_intake.move(127);
+						pros::delay(300);
+					}
+					else 
+					{
+						top_intake.move(-120);
+					}
+				}
+				else 
+				{
+					if ((current_hue > 0 && current_hue < 10)||current_hue > 343) 
+					{
+						top_intake.move(-127);
+						pros::delay(300);
+					}
+					else 
+					{
+						top_intake.move(120);
+					}
+				}
+			}
+			else {
+				top_intake.move(0);
+				pros::delay(30);
+			}
+		}
 
-	// });
+	});
 	
 	// //color sort for red
 	// pros::Task color_sort([&] (){
@@ -115,16 +138,27 @@ void initialize() {
 			float leftReading = left_dist.get()*MM_TO_IN;
 			float rightReading = right_dist.get()*MM_TO_IN;
 			float backReading = back_dist.get()*MM_TO_IN;
+			float frontLeftReading = frontleft_dist.get() * MM_TO_IN;
+			float frontRightReading = frontright_dist.get() * MM_TO_IN;
+			float backRightReading = backright_dist.get() * MM_TO_IN;
+			float backLeftReading = 0;
 
 			float frontConfidence=front_dist.get_confidence();
 			float leftConfidence=left_dist.get_confidence();
 			float rightConfidence=right_dist.get_confidence();
 			float backConfidence=back_dist.get_confidence();
+			float frontLeftConfidence=frontleft_dist.get_confidence();
+			float frontRightConfidence=frontright_dist.get_confidence();
+			float backRightConfidence=backright_dist.get_confidence();
+			float backLeftConfidence=0;
 
 			lemlib::Pose currentPose = chassis.getPose();
 
 			float estimated_x = currentPose.x;
 			float estimated_y = currentPose.y;
+
+			float x_deviation = 144;
+			float y_deviation = 144;
 
 			float normalizedTheta = normalizeAngle(currentPose.theta);
 
@@ -159,6 +193,22 @@ void initialize() {
 				parallel = true;
 				wallDirection = WEST;
 			}
+			else if (fabs(normalizedTheta - 45) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
+				parallel = true;
+				wallDirection = NE;
+			}
+			else if (fabs(normalizedTheta - 135) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
+				parallel = true;
+				wallDirection = SE;
+			}
+			else if (fabs(normalizedTheta - 315) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
+				parallel = true;
+				wallDirection = NW;
+			}
+			else if (fabs(normalizedTheta - 225) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
+				parallel = true;
+				wallDirection = SW;
+			}
 			else
 			{
 				parallel = false;
@@ -173,6 +223,8 @@ void initialize() {
 						estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, NORTH);
 						estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, WEST);
 						estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, SOUTH);
+						x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+						y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
 						estimated_x = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
 						estimated_y = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
 						break;
@@ -181,6 +233,8 @@ void initialize() {
 						estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, SOUTH);
 						estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, EAST);
 						estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, NORTH);
+						x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+						y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
 						estimated_x = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
 						estimated_y = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
 						break;
@@ -189,6 +243,8 @@ void initialize() {
 						estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, EAST);
 						estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, NORTH);
 						estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, WEST);
+						x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+						y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
 						estimated_y = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
 						estimated_x = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
 						break;
@@ -197,8 +253,50 @@ void initialize() {
 						estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, WEST);
 						estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, SOUTH);
 						estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, EAST);
+						x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+						y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
 						estimated_y = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
 						estimated_x = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
+						break;
+					case NE:
+						estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, EAST);
+						estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, NORTH);
+						estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, WEST);
+						estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, SOUTH);
+						y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+						x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+						estimated_y = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
+						estimated_x = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
+						break;
+					case SE:
+						estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, SOUTH);
+						estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, EAST);
+						estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, NORTH);
+						estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, WEST);
+						x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+						y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+						estimated_x = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
+						estimated_y = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
+						break;
+					case NW:
+						estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, NORTH);
+						estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, WEST);
+						estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, SOUTH);
+						estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, EAST);
+						x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+						y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+						estimated_x = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
+						estimated_y = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
+						break;
+					case SW:
+						estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, WEST);
+						estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, SOUTH);
+						estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, EAST);
+						estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, NORTH);
+						y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+						x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+						estimated_y = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
+						estimated_x = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
 						break;
 					default:
 						std::printf("Invalid wall direction");
@@ -208,16 +306,26 @@ void initialize() {
 				error_x = fabs(estimated_x - currentPose.x);
 				error_y = fabs(estimated_y - currentPose.y);
 
-				if(error_x>RAYCAST_RESET_MIN_ERROR && error_x < RAYCAST_RESET_MAX_ERROR)
+				// if(error_x>RAYCAST_RESET_MIN_ERROR && error_x < RAYCAST_RESET_MAX_ERROR)
+				// {
+				// 	chassis.setPose(estimated_x,chassis.getPose().y,chassis.getPose().theta);
+				// }
+				// if(error_y>RAYCAST_RESET_MIN_ERROR && error_y<RAYCAST_RESET_MAX_ERROR)
+				// {
+				// 	chassis.setPose(chassis.getPose().x,estimated_y,chassis.getPose().theta);
+				// }
+				if(x_deviation>=RAYCAST_RESET_MIN_ERROR&&x_deviation<=RAYCAST_RESET_MAX_ERROR&&error_x>0.3)
 				{
-					chassis.setPose(estimated_x,chassis.getPose().y,chassis.getPose().theta);
+					chassis.setPose(estimated_x, chassis.getPose().y,chassis.getPose().theta);
+					std::printf("X pos reset! %.3f Deviation: %.3f\n",estimated_x,x_deviation);
 				}
-				if(error_y>RAYCAST_RESET_MIN_ERROR && error_y<RAYCAST_RESET_MAX_ERROR)
+				if(y_deviation>=RAYCAST_RESET_MIN_ERROR&&y_deviation<=RAYCAST_RESET_MAX_ERROR&&error_y>0.3)
 				{
 					chassis.setPose(chassis.getPose().x,estimated_y,chassis.getPose().theta);
+					std::printf("Y pos reset! %.3f Deviation: %.3f\n", estimated_y,y_deviation);
 				}
 			}
-			pros::delay(500);
+			pros::delay(50);
 		}
 	});
 
@@ -226,8 +334,7 @@ void initialize() {
 		{
 			if(true)
 			{
-				std::cout<<std::endl;
-				controller.print(0,0,"X:%.2fY:%.2fT:%.2f",chassis.getPose().x,chassis.getPose().y,chassis.getPose().theta);
+				controller.print(0,0,"Color:%iX:%.2fY:%.2fT:%.2f",color_state,chassis.getPose().x,chassis.getPose().y,chassis.getPose().theta);
 				pros::delay(100);
 			}
 		}
@@ -269,19 +376,13 @@ void autonomous() {
 	switch(AUTON_NUM)
 	{
 		case 1:
+			sevballredr();
+			break;
+		case 2:
 			nineballredr();
 			break;
-		case 2:
+		case 3:
 			nineballredl();
-			break;
-		case 3:
-			sixballredr();
-			break;
-		case 2:
-			auton1();
-			break;
-		case 3:
-			red_left_9();
 			break;
 
 	}
@@ -307,6 +408,9 @@ void opcontrol() {
 	bool loadertech=false;
 	pto.set_value(true);
 	while (true) {
+		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+		bool color_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 		// if (!is_sorting) {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&color_sorting==false)
 		{
@@ -319,16 +423,14 @@ void opcontrol() {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			front_intake.move(127);
-			intake_2.move(-120);
-		}
-		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
-		{
-			intake_2.move(-30);
+			intake_2.move(100);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
-			front_intake.move(-40);
-			intake_2.move( -25);
+			front_intake.move(-81);
+			intake_2.move( 50);
+			intake_up.set_value(true);
+			matchload.set_value(true);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
@@ -338,23 +440,23 @@ void opcontrol() {
 			pros::delay(50);
 			baserightmiddle.move(127);
 			baseleftmiddle.move(127);
-			intake_2.move(-127);
-			front_intake.move(-40);
+			intake_2.move(127);
 			top_intake.move(127);
+			front_intake.move(-10);
 			// outtake=true;
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 		{
-			pto_state=true;
-			pto.set_value(false);
-			pros::delay(50);
-			baseleftmiddle.move(-127);
-			baserightmiddle.move(110);
-			intake_2.move(110);
-			front_intake.move(-40);
-			top_intake.move(-127);
+			intake_2.move(60);
+			top_intake.move(-80);
 		}
 		//  if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X))
+		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
+		{
+			matchload.set_value(false);
+			intake_up.set_value(false);
+			pros::delay(45);
+		}
 		else
 		{
 			pto_state=false;
@@ -381,39 +483,49 @@ void opcontrol() {
 		// 	pros::delay(50);
 		// }
 
-		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
-		bool trap_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT);
+		bool odom_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT);
 		bool parking_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
-		bool descore_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
+		bool descore_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
 
 		if(matchload_pressed && !prev_matchload_state)
 		{
 			matchload_state = !matchload_state;
 			matchload.set_value(matchload_state);
+			pros::delay(45);
 		}
 
-		if(trap_pressed && !prev_trap_state)
+		if(odom_pressed && !prev_odom_state)
 		{
-			trap_state = !trap_state;
-			trap.set_value(trap_state);
+			odom_state = !odom_state;
+			odom.set_value(odom_state);
+			pros::delay(45);
 		}
 
 		if(parking_pressed && !prev_parking_state)
 		{
 			parking_state = !parking_state;
 			parking.set_value(parking_state);
+			pros::delay(45);
 		}
 
 		if(descore_pressed && !prev_descore_state)
 		{
 			descore_state = !descore_state;
 			descore.set_value(descore_state);
+			pros::delay(45);
+		}
+
+		if(color_pressed && !prev_color_state)
+		{
+			color_state = !color_state;
 		}
 
 		prev_matchload_state = matchload_pressed;
-		prev_trap_state = trap_pressed;
+		prev_odom_state = odom_pressed;
 		prev_parking_state = parking_pressed;
 		prev_descore_state = descore_pressed;
+		prev_intake_up_state = intake_up_pressed;
+		prev_color_state = color_pressed;
 
 		// if(outtake)
 		// {
@@ -426,6 +538,7 @@ void opcontrol() {
 		
 			chassis.arcade(leftY, rightX);
 		}
-		pros::delay(15);
+		//}
+		pros::delay(15); // 25 ms = 0.025 seconds
 	}
 }
