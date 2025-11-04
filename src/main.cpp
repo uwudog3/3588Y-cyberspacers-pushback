@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int AUTON_NUM = 1;
+int AUTON_NUM = 2;
 bool is_sorting = false;
 
 bool outtake = false;
@@ -23,9 +23,11 @@ bool prev_odom_state = false;
 bool prev_parking_state = false;
 bool prev_descore_state = false;
 bool prev_intake_up_state = false;
+bool prev_color_state = false;
 
 bool color_sort_on = false;
 bool color_sorting=false;
+bool color_state = false;
 
 //red color hues (0-10 and 343<)
 
@@ -68,25 +70,45 @@ void initialize() {
 	//color sort task
 
 
-	//color sort for blue
-	// pros::Task color_sort_blue([&] (){
+	// color sort for blue
+	pros::Task color_sort_blue([&] (){
 
-	// 	while (true){
+		while (true){
 
-	// 		double current_hue = color_sensor.get_hue();
+			double current_hue = color_sensor.get_hue();
 
-	// 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
-	// 			if ((current_hue > 0 && current_hue < 10)||current_hue > 343) {
-	// 				top_intake.move(127);
-	// 				pros::delay(300);
-	// 			}
-	// 			else {
-	// 				top_intake.move(-120);
-	// 			}
-	// 		}
-	// 	}
+			if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
+				if(color_state){
+					if ((current_hue > 0 && current_hue < 10)||current_hue > 343) 
+					{
+						top_intake.move(127);
+						pros::delay(300);
+					}
+					else 
+					{
+						top_intake.move(-120);
+					}
+				}
+				else 
+				{
+					if ((current_hue > 0 && current_hue < 10)||current_hue > 343) 
+					{
+						top_intake.move(-127);
+						pros::delay(300);
+					}
+					else 
+					{
+						top_intake.move(120);
+					}
+				}
+			}
+			else {
+				top_intake.move(0);
+				pros::delay(30);
+			}
+		}
 
-	// });
+	});
 	
 	// //color sort for red
 	// pros::Task color_sort([&] (){
@@ -312,7 +334,7 @@ void initialize() {
 		{
 			if(true)
 			{
-				controller.print(0,0,"X:%.2fY:%.2fT:%.2f",chassis.getPose().x,chassis.getPose().y,chassis.getPose().theta);
+				controller.print(0,0,"Color:%iX:%.2fY:%.2fT:%.2f",color_state,chassis.getPose().x,chassis.getPose().y,chassis.getPose().theta);
 				pros::delay(100);
 			}
 		}
@@ -388,6 +410,7 @@ void opcontrol() {
 	while (true) {
 		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
 		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+		bool color_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 		// if (!is_sorting) {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&color_sorting==false)
 		{
@@ -492,11 +515,17 @@ void opcontrol() {
 			pros::delay(45);
 		}
 
+		if(color_pressed && !prev_color_state)
+		{
+			color_state = !color_state;
+		}
+
 		prev_matchload_state = matchload_pressed;
 		prev_odom_state = odom_pressed;
 		prev_parking_state = parking_pressed;
 		prev_descore_state = descore_pressed;
 		prev_intake_up_state = intake_up_pressed;
+		prev_color_state = color_pressed;
 
 		// if(outtake)
 		// {

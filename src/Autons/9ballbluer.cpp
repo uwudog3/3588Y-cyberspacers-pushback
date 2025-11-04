@@ -1,7 +1,10 @@
 #include "drive.hpp"
 #include "main.h"
 
-void nineballredr() {
+void nineballbluer() {
+    //haven't chaged anything here yet
+    //CHANGE NOW BECAUSE IT WON'T WORK IN THE BLUE RIGHT SIDE
+    //THIS SIDE IS ON THE RIGHT SIDE WHEN YOU ARE IN THE BLUE SIDE
     pto.set_value(true);
     hood.set_value(false);
     descore.set_value(false);
