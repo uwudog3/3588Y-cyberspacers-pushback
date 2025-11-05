@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int AUTON_NUM = 2;
+int AUTON_NUM = SKILLS2;
 bool is_sorting = false;
 
 bool outtake = false;
@@ -26,7 +26,7 @@ bool prev_intake_up_state = false;
 bool prev_color_state = false;
 
 bool color_sort_on = false;
-bool color_sorting=false;
+bool color_sorting=true;
 bool color_state = false;
 
 //red color hues (0-10 and 343<)
@@ -104,8 +104,9 @@ void initialize() {
 			}
 			else {
 				top_intake.move(0);
-				pros::delay(30);
 			}
+			pros::delay(30);
+
 		}
 
 	});
@@ -383,6 +384,12 @@ void autonomous() {
 			break;
 		case 3:
 			nineballredl();
+			break;
+		case 4:
+			skills();
+			break;
+		case 5:
+			skills2();
 			break;
 
 	}

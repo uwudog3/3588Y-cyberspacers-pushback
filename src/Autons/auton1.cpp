@@ -6,7 +6,7 @@ void auton1() {
     front_intake.move(127);
     intake_2.move(127);
 
-    color_sort_on = true;
+    // color_sort_on = true;
 
 // Auton 1
 
