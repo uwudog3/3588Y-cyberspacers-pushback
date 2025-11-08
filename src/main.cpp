@@ -70,7 +70,6 @@ void initialize() {
 	//color sort task
 
 
-	// color sort for blue
 	pros::Task color_sort_blue([&] (){
 
 		while (true){
@@ -408,8 +407,8 @@ void opcontrol() {
 	bool loadertech=false;
 	pto.set_value(true);
 	while (true) {
-		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
-		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
+		// bool _pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
 		bool color_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 		// if (!is_sorting) {
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&color_sorting==false)
@@ -431,13 +430,14 @@ void opcontrol() {
 			intake_2.move( 50);
 			intake_up.set_value(true);
 			matchload.set_value(true);
+			pros::delay(40);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
 			pto_state=true;
 			pto.set_value(false);
 			hood.set_value(true);
-			pros::delay(50);
+			pros::delay(20);
 			baserightmiddle.move(127);
 			baseleftmiddle.move(127);
 			intake_2.move(127);
@@ -455,14 +455,14 @@ void opcontrol() {
 		{
 			matchload.set_value(false);
 			intake_up.set_value(false);
-			pros::delay(45);
+			pros::delay(40);
 		}
 		else
 		{
 			pto_state=false;
 			pto.set_value(true);
 			hood.set_value(false);
-			pros::delay(20);
+			pros::delay(40);
 			front_intake.move(0);
 			baseleftmiddle.move(0);
 			intake_2.move(0);
@@ -483,46 +483,54 @@ void opcontrol() {
 		// 	pros::delay(50);
 		// }
 
-		bool odom_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT);
-		bool parking_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
-		bool descore_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+		bool odom_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+		bool descore_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
 
 		if(matchload_pressed && !prev_matchload_state)
 		{
 			matchload_state = !matchload_state;
 			matchload.set_value(matchload_state);
-			pros::delay(45);
+			pros::delay(40);
+		}
+
+		if(intake_up_pressed && !prev_intake_up_state)
+		{
+			intake_up_state = !intake_up_state;
+			intake_up.set_value(intake_up_state);
+			pros::delay(40);
 		}
 
 		if(odom_pressed && !prev_odom_state)
 		{
 			odom_state = !odom_state;
 			odom.set_value(odom_state);
-			pros::delay(45);
+			pros::delay(40);
 		}
 
-		if(parking_pressed && !prev_parking_state)
-		{
-			parking_state = !parking_state;
-			parking.set_value(parking_state);
-			pros::delay(45);
-		}
+		// if(parking_pressed && !prev_parking_state)
+		// {
+		// 	parking_state = !parking_state;
+		// 	parking.set_value(parking_state);
+		// 	pros::delay(45);
+		// }
 
 		if(descore_pressed && !prev_descore_state)
 		{
 			descore_state = !descore_state;
 			descore.set_value(descore_state);
-			pros::delay(45);
+			pros::delay(40);
 		}
 
 		if(color_pressed && !prev_color_state)
 		{
 			color_state = !color_state;
+			pros::delay(40);
 		}
 
 		prev_matchload_state = matchload_pressed;
 		prev_odom_state = odom_pressed;
-		prev_parking_state = parking_pressed;
+		// prev_parking_state = parking_pressed;
 		prev_descore_state = descore_pressed;
 		prev_intake_up_state = intake_up_pressed;
 		prev_color_state = color_pressed;
@@ -539,6 +547,6 @@ void opcontrol() {
 			chassis.arcade(leftY, rightX);
 		}
 		//}
-		pros::delay(15); // 25 ms = 0.025 seconds
+		pros::delay(14); // 25 ms = 0.025 seconds
 	}
 }

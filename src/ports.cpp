@@ -18,12 +18,12 @@ pros::Motor baseleftmiddle(-15);
 pros::Optical color_sensor(4);
 
 pros::ADIDigitalOut pto('A');
-pros::ADIDigitalOut hood('D');
-pros::ADIDigitalOut matchload('C');
-pros::ADIDigitalOut parking('E');
-pros::ADIDigitalOut descore('G');
-pros::ADIDigitalOut odom('F');
-pros::ADIDigitalOut intake_up('H');
+pros::ADIDigitalOut hood('H');
+pros::ADIDigitalOut matchload('E');
+pros::ADIDigitalOut parking('B');
+pros::ADIDigitalOut descore('C');
+pros::ADIDigitalOut odom('G');
+pros::ADIDigitalOut intake_up('D');
 
 pros::Distance back_dist(5);
 pros::Distance front_dist(3);
