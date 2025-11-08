@@ -26,7 +26,7 @@ bool prev_intake_up_state = false;
 bool prev_color_state = false;
 
 bool color_sort_on = false;
-bool color_sorting=true;
+bool color_sorting= false;
 bool color_state = false;
 
 //red color hues (0-10 and 343<)

@@ -15,12 +15,12 @@ pros::Optical color_sensor(4);
 pros::AIVision ai_sensor(7);
 
 pros::ADIDigitalOut pto('A');
-pros::ADIDigitalOut hood('D');
+pros::ADIDigitalOut hood('H');
 pros::ADIDigitalOut matchload('C');
 pros::ADIDigitalOut parking('E');
-pros::ADIDigitalOut descore('G');
-pros::ADIDigitalOut odom('F');
-pros::ADIDigitalOut intake_up('H');
+pros::ADIDigitalOut descore('F');
+pros::ADIDigitalOut odom('G');
+pros::ADIDigitalOut intake_up('D');
 
 pros::Distance back_dist(5);
 pros::Distance front_dist(3);
