@@ -108,25 +108,6 @@ void initialize() {
 		}
 
 	});
-	
-	// //color sort for red
-	// pros::Task color_sort([&] (){
-
-	// 	while (true){
-
-	// 		double current_hue = color_sensor.get_hue();
-
-	// 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
-	// 			if ((current_hue > 0 && current_hue < 10)||current_hue>343) {
-	// 				top_intake.move(-127);
-	// 				color_sorting=true;
-	// 				pros::delay(270);
-	// 				color_sorting=false;
-	// 			}
-	// 		}
-	// 		pros::delay(50);
-	// 	}
-	// });
 
 	// chassis.setPose(0,0,0);
 	chassis.setPose(positionFromRaycast(back_dist.get()*MM_TO_IN, BACK_DIST_OFFSET, WEST),positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH), 90);
@@ -426,11 +407,8 @@ void opcontrol() {
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
-			front_intake.move(-81);
-			intake_2.move( 50);
-			intake_up.set_value(true);
-			matchload.set_value(true);
-			pros::delay(40);
+			front_intake.move(-60);
+			intake_2.move(30);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
@@ -442,21 +420,16 @@ void opcontrol() {
 			baseleftmiddle.move(127);
 			intake_2.move(127);
 			top_intake.move(127);
-			front_intake.move(-10);
+			front_intake.move(-8  );
 			// outtake=true;
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 		{
-			intake_2.move(60);
-			top_intake.move(-80);
+			intake_2.move(55);
+			top_intake.move(-24);
+			front_intake.move(-19);
 		}
 		//  if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X))
-		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
-		{
-			matchload.set_value(false);
-			intake_up.set_value(false);
-			pros::delay(40);
-		}
 		else
 		{
 			pto_state=false;

@@ -23,7 +23,7 @@ pros::ADIDigitalOut matchload('E');
 pros::ADIDigitalOut parking('B');
 pros::ADIDigitalOut descore('C');
 pros::ADIDigitalOut odom('G');
-pros::ADIDigitalOut intake_up('D');
+pros::ADIDigitalOut intake_up('F');
 
 pros::Distance back_dist(5);
 pros::Distance front_dist(3);
