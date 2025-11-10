@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int AUTON_NUM = SKILLS2;
+int AUTON_NUM = SKILLS;
 bool is_sorting = false;
 
 bool outtake = false;
@@ -449,12 +449,12 @@ void opcontrol() {
 			baseleftmiddle.move(127);
 			intake_2.move(127);
 			top_intake.move(127);
-			front_intake.move(-10);
+			// front_intake.move(-10);
 			// outtake=true;
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 		{
-			intake_2.move(60);
+			intake_2.move(72);
 			top_intake.move(-80);
 		}
 		//  if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X))
@@ -491,8 +491,8 @@ void opcontrol() {
 		// }
 
 		bool odom_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT);
-		bool parking_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
-		bool descore_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+		// bool parking_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN);
+		bool descore_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
 
 		if(matchload_pressed && !prev_matchload_state)
 		{
@@ -508,17 +508,24 @@ void opcontrol() {
 			pros::delay(45);
 		}
 
-		if(parking_pressed && !prev_parking_state)
-		{
-			parking_state = !parking_state;
-			parking.set_value(parking_state);
-			pros::delay(45);
-		}
+		// if(parking_pressed && !prev_parking_state)
+		// {
+		// 	parking_state = !parking_state;
+		// 	parking.set_value(parking_state);
+		// 	pros::delay(45);
+		// }
 
 		if(descore_pressed && !prev_descore_state)
 		{
 			descore_state = !descore_state;
 			descore.set_value(descore_state);
+			pros::delay(45);
+		}
+
+		if(intake_up_pressed && !prev_intake_up_state)
+		{
+			intake_up_state = !intake_up_state;
+			intake_up.set_value(intake_up_state);
 			pros::delay(45);
 		}
 
@@ -529,7 +536,7 @@ void opcontrol() {
 
 		prev_matchload_state = matchload_pressed;
 		prev_odom_state = odom_pressed;
-		prev_parking_state = parking_pressed;
+		// prev_parking_state = parking_pressed;
 		prev_descore_state = descore_pressed;
 		prev_intake_up_state = intake_up_pressed;
 		prev_color_state = color_pressed;

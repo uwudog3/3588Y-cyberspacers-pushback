@@ -16,11 +16,11 @@ pros::AIVision ai_sensor(7);
 
 pros::ADIDigitalOut pto('A');
 pros::ADIDigitalOut hood('H');
-pros::ADIDigitalOut matchload('C');
-pros::ADIDigitalOut parking('E');
-pros::ADIDigitalOut descore('F');
+pros::ADIDigitalOut matchload('E'); // E
+// pros::ADIDigitalOut parking('');
+pros::ADIDigitalOut descore('C'); // C
 pros::ADIDigitalOut odom('G');
-pros::ADIDigitalOut intake_up('D');
+pros::ADIDigitalOut intake_up('F');
 
 pros::Distance back_dist(5);
 pros::Distance front_dist(3);
