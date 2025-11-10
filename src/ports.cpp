@@ -23,8 +23,8 @@ pros::ADIDigitalOut odom('G');
 pros::ADIDigitalOut intake_up('F');
 
 pros::Distance back_dist(5);
-pros::Distance front_dist(3);
-pros::Distance left_dist(1);
+pros::Distance front_dist(1);
+pros::Distance left_dist(3);
 pros::Distance right_dist(2);
 pros::Distance frontleft_dist(6);
 pros::Distance backright_dist(7);
