@@ -71,45 +71,45 @@ void initialize() {
 
 
 	// color sort for blue
-	pros::Task color_sort_blue([&] (){
+	// pros::Task color_sort_blue([&] (){
 
-		while (true){
+	// 	while (true){
 
-			double current_hue = color_sensor.get_hue();
+	// 		double current_hue = color_sensor.get_hue();
 
-			if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
-				if(color_state){
-					if ((current_hue > 0 && current_hue < 10)||current_hue > 343) 
-					{
-						top_intake.move(127);
-						pros::delay(300);
-					}
-					else 
-					{
-						top_intake.move(-120);
-					}
-				}
-				else 
-				{
-					if ((current_hue > 0 && current_hue < 10)||current_hue > 343) 
-					{
-						top_intake.move(-127);
-						pros::delay(300);
-					}
-					else 
-					{
-						top_intake.move(120);
-					}
-				}
-			}
-			else {
-				top_intake.move(0);
-			}
-			pros::delay(30);
+	// 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || outtake || color_sort_on){
+	// 			if(color_state){
+	// 				if ((current_hue > 0 && current_hue < 10)||current_hue > 343) 
+	// 				{
+	// 					top_intake.move(127);
+	// 					pros::delay(300);
+	// 				}
+	// 				else 
+	// 				{
+	// 					top_intake.move(-120);
+	// 				}
+	// 			}
+	// 			else 
+	// 			{
+	// 				if ((current_hue > 0 && current_hue < 10)||current_hue > 343) 
+	// 				{
+	// 					top_intake.move(-127);
+	// 					pros::delay(300);
+	// 				}
+	// 				else 
+	// 				{
+	// 					top_intake.move(120);
+	// 				}
+	// 			}
+	// 		}
+	// 		else {
+	// 			top_intake.move(0);
+	// 		}
+	// 		pros::delay(30);
 
-		}
+	// 	}
 
-	});
+	// });
 	
 	// //color sort for red
 	// pros::Task color_sort([&] (){
@@ -142,7 +142,7 @@ void initialize() {
 			float frontLeftReading = frontleft_dist.get() * MM_TO_IN;
 			float frontRightReading = frontright_dist.get() * MM_TO_IN;
 			float backRightReading = backright_dist.get() * MM_TO_IN;
-			float backLeftReading = 0;
+			float backLeftReading = backleft_dist.get() * MM_TO_IN;
 
 			float frontConfidence=front_dist.get_confidence();
 			float leftConfidence=left_dist.get_confidence();
@@ -151,7 +151,7 @@ void initialize() {
 			float frontLeftConfidence=frontleft_dist.get_confidence();
 			float frontRightConfidence=frontright_dist.get_confidence();
 			float backRightConfidence=backright_dist.get_confidence();
-			float backLeftConfidence=0;
+			float backLeftConfidence=backleft_dist.get_confidence();
 
 			lemlib::Pose currentPose = chassis.getPose();
 
@@ -431,6 +431,7 @@ void opcontrol() {
 		{
 			front_intake.move(127);
 			intake_2.move(100);
+			hood.set_value(false);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{

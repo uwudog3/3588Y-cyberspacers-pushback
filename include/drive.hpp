@@ -36,3 +36,4 @@ extern pros::ADIDigitalOut intake_up;
 extern pros::Distance frontleft_dist;
 extern pros::Distance frontright_dist;
 extern pros::Distance backright_dist;
+extern pros::Distance backleft_dist;
