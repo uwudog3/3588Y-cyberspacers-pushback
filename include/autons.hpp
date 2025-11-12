@@ -3,9 +3,6 @@
 #define SKILLS 4
 #define SKILLS2 5
 
-extern void nineballredr();
-extern void nineballredl();
-extern void sevballredr();
 extern void nineballbluer();
 extern void skills();
 extern void skills2();

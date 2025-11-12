@@ -1,7 +1,7 @@
 #include "drive.hpp"
 #include "main.h"
 
-void right9ball() {
+void left9ball() {
     odom.set_value(false);
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(back_dist.get() * MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(right_dist.get() * MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH),90);
