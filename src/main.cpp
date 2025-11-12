@@ -7,7 +7,8 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int AUTON_NUM = 3;
+int selected_auton = 3;
+bool auton_selected = false;
 bool is_sorting = false;
 
 bool outtake = false;
@@ -29,6 +30,17 @@ bool color_sort_on = false;
 bool color_sorting= false;
 bool color_state = false;
 
+const char* auton_names[] = {
+    "None",
+    "Left 9 Ball",
+    "Left 7 Ball", 
+    "Left Middle Goal",
+    "Right 9 Ball",
+    "Right 7 Ball",
+	"Right Low Goal",
+    "Skills"
+};
+
 //red color hues (0-10 and 343<)
 
 /**
@@ -38,13 +50,21 @@ bool color_state = false;
  * "I was pressed!" and nothing.
  */
 void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
+    auton_selected = true;
+}
+
+void on_left_button() {
+    if (!auton_selected) {
+        selected_auton--;
+        if (selected_auton < 1) selected_auton = 7; // Wrap to last auton
+    }
+}
+
+void on_right_button() {
+    if (!auton_selected) {
+        selected_auton++;
+        if (selected_auton > 7) selected_auton = 1; // Wrap to first auton
+    }
 }
 
 /**
@@ -58,14 +78,33 @@ void on_center_button() {
 
 void initialize() {
 	// Start the RGB printing task only once
-    pros::lcd::initialize();
-    pros::lcd::set_text(1, "Hello Sean!");
-    pros::lcd::register_btn1_cb(on_center_button);
+	pros::lcd::initialize();
+	pros::lcd::register_btn0_cb(on_left_button);   // Left button
+    pros::lcd::register_btn1_cb(on_center_button); // Center button  
+    pros::lcd::register_btn2_cb(on_right_button);  // Right button
+
 	chassis.calibrate();
 	color_sensor.set_led_pwm(100);
 
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 	pto.set_value(true);
+
+	pros::Task screen_task([&] {
+		while (!auton_selected) {
+		// pros::lcd::clear();
+		pros::lcd::print(0, "Auton Selector");
+		pros::lcd::print(1, "< %s >", auton_names[selected_auton]);
+		pros::lcd::print(2, "Press center to select");
+		pros::lcd::print(3, "Selected: %d", selected_auton);
+		pros::delay(100);
+	}
+        
+		// Display selected auton
+		pros::lcd::print(0, "Auton Selected!");
+		pros::lcd::print(1, "%s", auton_names[selected_auton]);
+		pros::lcd::print(2, "ID: %i", selected_auton);
+		pros::lcd::clear_line(3);
+	});
 
 	//color sort task
 
@@ -374,19 +413,28 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-	switch(AUTON_NUM)
+	switch(selected_auton)
 	{
 		case 1:
-			skills();
+			left9ball();
 			break;
 		case 2:
-			skills2();
+			left7ball();
 			break;
 		case 3:
-			right9ball();
+			leftMiddleGoal();
 			break;
 		case 4:
+			right9ball();
+			break;
+		case 5:
 			right7ball();
+			break;
+		case 6:
+			rightLowGoal();
+			break;
+		case 7:
+			skills();
 			break;
 	}
 }

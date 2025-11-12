@@ -2,7 +2,7 @@
 #include "main.h"
 #include "utils.hpp"
 
-void left7ball() {
+void leftMiddleGoal() {
     odom.set_value(false);
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(back_dist.get() * MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get() * MM_TO_IN, LEFT_DIST_OFFSET, NORTH),90);
@@ -21,9 +21,25 @@ void left7ball() {
     
     chassis.moveToPoint(-7.6, 45, 1200, {.maxSpeed=127, .minSpeed = 5, .earlyExitRange = 1});
 
+    // score middle goal
+    chassis.moveToPoint(-24, 24, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1});
+    chassis.turnToPoint(-8, 8, 500, {.forwards=false});
+    chassis.moveToPoint(-8, 8, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=45, .earlyExitRange=1}, false);
+
+    pto.set_value(true);
+    front_intake.move(-13);
+    intake_2.move(127);
+    top_intake.move(-127);
+    hood.set_value(true);
+    pros::delay(2100);
+    matchload.set_value(false);
+    pto.set_value(true);
+    front_intake.move(127);
+    top_intake.move(127);
+    intake_2.move(100);
+
+
     // matchload
-    chassis.moveToPoint(-24, 24, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5});
-    chassis.turnToPoint(-45,48,1000);
     chassis.moveToPoint(-45,48,2000,{.forwards=true,.maxSpeed=90,.minSpeed=5,.earlyExitRange=1});
     chassis.waitUntil(20);
     matchload.set_value(true);
