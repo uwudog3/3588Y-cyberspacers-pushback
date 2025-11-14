@@ -13,23 +13,21 @@ void right9ball() {
     hood.set_value(false);
 
     // pick up trio
-    chassis.moveToPoint(-22, -22, 250, {.maxSpeed=100, .minSpeed = 100, .earlyExitRange = 36});
-    chassis.moveToPoint(-22, -22, 2000, {.maxSpeed = 100, .minSpeed = 100, .earlyExitRange = 5});
+    chassis.moveToPoint(-24, -23, 250, {.maxSpeed=100, .minSpeed = 100, .earlyExitRange = 36});
+    chassis.moveToPoint(-24, -23, 2000, {.maxSpeed = 100, .minSpeed = 100, .earlyExitRange = 5});
 
     // pick up long goal balls
     
-    chassis.moveToPoint(-8, -50, 1200, {.maxSpeed=100, .minSpeed = 5, .earlyExitRange = 1});
+    chassis.moveToPoint(-9, -44, 800, {.maxSpeed=100, .minSpeed = 5});
 
     // matchload
-    chassis.moveToPoint(-24, -24, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5});
-    chassis.turnToPoint(-45,-48,500);
-    chassis.moveToPoint(-45,-48,1500,{.forwards=true,.maxSpeed=127, .earlyExitRange=1});
+    chassis.moveToPoint(-24, -36, 2000, {.forwards=false, .maxSpeed=100, .minSpeed=100, .earlyExitRange=5});
+    chassis.moveToPoint(-45,-48,3000,{.forwards=false,.maxSpeed=127});
     chassis.waitUntil(20);
     matchload.set_value(true);
     chassis.turnToHeading(270,1000, {}, false);
-    pros::delay(100);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, SOUTH), chassis.getPose().theta);
-    chassis.moveToPoint(-60, -48, 1000, {.forwards=true, .maxSpeed=70,.minSpeed=70});
+    chassis.moveToPoint(-60, -47.5, 1000, {.forwards=true, .maxSpeed=70,.minSpeed=70});
     pros::delay(1000);
     // left_mg.move(-50);
     // right_mg.move(-50);
@@ -40,7 +38,8 @@ void right9ball() {
 
     // goal
 
-    chassis.moveToPoint(-24, -48, 1400, {.forwards=false,.maxSpeed=127,.minSpeed=80, .earlyExitRange=1},false);
+    chassis.turnToPoint(-24, -48.5, 500, {.forwards=false, .minSpeed=127, .earlyExitRange=2});
+    chassis.moveToPoint(-24, -48.5, 2000, {.forwards=false,.maxSpeed=127,.minSpeed=45, .earlyExitRange=1},false);
     // pto.set_value(false);
     // baseleftmiddle.move(127);
     // baserightmiddle.move(127);
@@ -55,11 +54,11 @@ void right9ball() {
     intake_2.move(100);
 
     // descore
-    chassis.moveToPoint(-33, -30, 1800, {.maxSpeed=80, .minSpeed=5});
+    chassis.moveToPoint(-36, -37, 1800, {.maxSpeed=80});
     chassis.waitUntil(3);
     hood.set_value(false);
-    chassis.turnToPoint(-10, -43, 1000, {.forwards=false});
-    chassis.moveToPoint(-10, -43, 1500, {.forwards=false, .minSpeed=5, .earlyExitRange=1});
+    chassis.turnToPoint(-12, -38, 1000, {.forwards=false});
+    chassis.moveToPoint(-12, -38, 1500, {.forwards=false, .minSpeed=5, .earlyExitRange=3});
     chassis.turnToHeading(-120, 500);
 
     odom.set_value(false);

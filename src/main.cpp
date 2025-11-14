@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int selected_auton = 10;
+int selected_auton = LEFT7BALL;
 bool auton_selected = false;
 bool is_sorting = false;
 
