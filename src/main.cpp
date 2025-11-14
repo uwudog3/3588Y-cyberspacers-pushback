@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int selected_auton = 3;
+int selected_auton = RIGHT9BALL;
 bool auton_selected = false;
 bool is_sorting = false;
 
@@ -169,205 +169,205 @@ void initialize() {
 	// 	}
 	// });
 
-	// chassis.setPose(0,0,0);
-	chassis.setPose(positionFromRaycast(back_dist.get()*MM_TO_IN, BACK_DIST_OFFSET, WEST),positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH), 90);
-	pros::Task distance_resets([&]{
-		while(true)
-		{
-			float frontReading = front_dist.get()*MM_TO_IN;
-			float leftReading = left_dist.get()*MM_TO_IN;
-			float rightReading = right_dist.get()*MM_TO_IN;
-			float backReading = back_dist.get()*MM_TO_IN;
-			float frontLeftReading = frontleft_dist.get() * MM_TO_IN;
-			float frontRightReading = frontright_dist.get() * MM_TO_IN;
-			float backRightReading = backright_dist.get() * MM_TO_IN;
-			float backLeftReading = backleft_dist.get() * MM_TO_IN;
+	chassis.setPose(0,0,0);
+	// chassis.setPose(positionFromRaycast(back_dist.get()*MM_TO_IN, BACK_DIST_OFFSET, WEST),positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH), 90);
+	// pros::Task distance_resets([&]{
+	// 	while(true)
+	// 	{
+	// 		float frontReading = front_dist.get()*MM_TO_IN;
+	// 		float leftReading = left_dist.get()*MM_TO_IN;
+	// 		float rightReading = right_dist.get()*MM_TO_IN;
+	// 		float backReading = back_dist.get()*MM_TO_IN;
+	// 		float frontLeftReading = frontleft_dist.get() * MM_TO_IN;
+	// 		float frontRightReading = frontright_dist.get() * MM_TO_IN;
+	// 		float backRightReading = backright_dist.get() * MM_TO_IN;
+	// 		float backLeftReading = backleft_dist.get() * MM_TO_IN;
 
-			float frontConfidence=front_dist.get_confidence();
-			float leftConfidence=left_dist.get_confidence();
-			float rightConfidence=right_dist.get_confidence();
-			float backConfidence=back_dist.get_confidence();
-			float frontLeftConfidence=frontleft_dist.get_confidence();
-			float frontRightConfidence=frontright_dist.get_confidence();
-			float backRightConfidence=backright_dist.get_confidence();
-			float backLeftConfidence=backleft_dist.get_confidence();
+	// 		float frontConfidence=front_dist.get_confidence();
+	// 		float leftConfidence=left_dist.get_confidence();
+	// 		float rightConfidence=right_dist.get_confidence();
+	// 		float backConfidence=back_dist.get_confidence();
+	// 		float frontLeftConfidence=frontleft_dist.get_confidence();
+	// 		float frontRightConfidence=frontright_dist.get_confidence();
+	// 		float backRightConfidence=backright_dist.get_confidence();
+	// 		float backLeftConfidence=backleft_dist.get_confidence();
 
-			lemlib::Pose currentPose = chassis.getPose();
+	// 		lemlib::Pose currentPose = chassis.getPose();
 
-			float estimated_x = currentPose.x;
-			float estimated_y = currentPose.y;
+	// 		float estimated_x = currentPose.x;
+	// 		float estimated_y = currentPose.y;
 
-			float x_deviation = 144;
-			float y_deviation = 144;
+	// 		float x_deviation = 144;
+	// 		float y_deviation = 144;
 
-			float normalizedTheta = normalizeAngle(currentPose.theta);
+	// 		float normalizedTheta = normalizeAngle(currentPose.theta);
 
-			float estimatedRightPos = 0;
-			float estimatedFrontPos = 0;
-			float estimatedLeftPos = 0;
-			float estimatedBackPos = 0;
+	// 		float estimatedRightPos = 0;
+	// 		float estimatedFrontPos = 0;
+	// 		float estimatedLeftPos = 0;
+	// 		float estimatedBackPos = 0;
 
-			WALL wallDirection = NORTH;
-			bool parallel = false;
+	// 		WALL wallDirection = NORTH;
+	// 		bool parallel = false;
 
-			float error_x = 144.0;
-			float error_y = 144.0;
+	// 		float error_x = 144.0;
+	// 		float error_y = 144.0;
 
-			if(fabs(normalizedTheta)<RAYCAST_RESET_ANGLE_RANGE/2.0)
-			{
-				parallel = true;
-				wallDirection = NORTH;
-			}
-			else if(fabs(normalizedTheta - 180)<RAYCAST_RESET_ANGLE_RANGE/2.0)
-			{
-				parallel = true;
-				wallDirection = SOUTH;
-			}
-			else if(fabs(normalizedTheta - 90)<RAYCAST_RESET_ANGLE_RANGE/2.0)
-			{
-				parallel = true;
-				wallDirection = EAST;
-			}
-			else if(fabs(normalizedTheta - 270)<RAYCAST_RESET_ANGLE_RANGE/2.0)
-			{
-				parallel = true;
-				wallDirection = WEST;
-			}
-			else if (fabs(normalizedTheta - 45) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
-				parallel = true;
-				wallDirection = NE;
-			}
-			else if (fabs(normalizedTheta - 135) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
-				parallel = true;
-				wallDirection = SE;
-			}
-			else if (fabs(normalizedTheta - 315) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
-				parallel = true;
-				wallDirection = NW;
-			}
-			else if (fabs(normalizedTheta - 225) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
-				parallel = true;
-				wallDirection = SW;
-			}
-			else
-			{
-				parallel = false;
-			}
+	// 		if(fabs(normalizedTheta)<RAYCAST_RESET_ANGLE_RANGE/2.0)
+	// 		{
+	// 			parallel = true;
+	// 			wallDirection = NORTH;
+	// 		}
+	// 		else if(fabs(normalizedTheta - 180)<RAYCAST_RESET_ANGLE_RANGE/2.0)
+	// 		{
+	// 			parallel = true;
+	// 			wallDirection = SOUTH;
+	// 		}
+	// 		else if(fabs(normalizedTheta - 90)<RAYCAST_RESET_ANGLE_RANGE/2.0)
+	// 		{
+	// 			parallel = true;
+	// 			wallDirection = EAST;
+	// 		}
+	// 		else if(fabs(normalizedTheta - 270)<RAYCAST_RESET_ANGLE_RANGE/2.0)
+	// 		{
+	// 			parallel = true;
+	// 			wallDirection = WEST;
+	// 		}
+	// 		else if (fabs(normalizedTheta - 45) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
+	// 			parallel = true;
+	// 			wallDirection = NE;
+	// 		}
+	// 		else if (fabs(normalizedTheta - 135) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
+	// 			parallel = true;
+	// 			wallDirection = SE;
+	// 		}
+	// 		else if (fabs(normalizedTheta - 315) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
+	// 			parallel = true;
+	// 			wallDirection = NW;
+	// 		}
+	// 		else if (fabs(normalizedTheta - 225) < RAYCAST_RESET_ANGLE_RANGE/2.0) {
+	// 			parallel = true;
+	// 			wallDirection = SW;
+	// 		}
+	// 		else
+	// 		{
+	// 			parallel = false;
+	// 		}
 
-			if(parallel)
-			{
-				switch(wallDirection)
-				{
-					case NORTH:
-						estimatedRightPos = positionFromRaycast(rightReading, RIGHT_DIST_OFFSET, EAST);
-						estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, NORTH);
-						estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, WEST);
-						estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, SOUTH);
-						x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
-						y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
-						estimated_x = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
-						estimated_y = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
-						break;
-					case SOUTH:
-						estimatedRightPos = positionFromRaycast(rightReading, RIGHT_DIST_OFFSET, WEST);
-						estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, SOUTH);
-						estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, EAST);
-						estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, NORTH);
-						x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
-						y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
-						estimated_x = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
-						estimated_y = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
-						break;
-					case EAST:
-						estimatedRightPos = positionFromRaycast(rightReading, RIGHT_DIST_OFFSET, SOUTH);
-						estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, EAST);
-						estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, NORTH);
-						estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, WEST);
-						x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
-						y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
-						estimated_y = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
-						estimated_x = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
-						break;
-					case WEST:
-						estimatedRightPos = positionFromRaycast(rightReading, RIGHT_DIST_OFFSET, NORTH);
-						estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, WEST);
-						estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, SOUTH);
-						estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, EAST);
-						x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
-						y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
-						estimated_y = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
-						estimated_x = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
-						break;
-					case NE:
-						estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, EAST);
-						estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, NORTH);
-						estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, WEST);
-						estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, SOUTH);
-						y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
-						x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
-						estimated_y = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
-						estimated_x = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
-						break;
-					case SE:
-						estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, SOUTH);
-						estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, EAST);
-						estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, NORTH);
-						estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, WEST);
-						x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
-						y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
-						estimated_x = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
-						estimated_y = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
-						break;
-					case NW:
-						estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, NORTH);
-						estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, WEST);
-						estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, SOUTH);
-						estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, EAST);
-						x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
-						y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
-						estimated_x = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
-						estimated_y = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
-						break;
-					case SW:
-						estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, WEST);
-						estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, SOUTH);
-						estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, EAST);
-						estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, NORTH);
-						y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
-						x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
-						estimated_y = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
-						estimated_x = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
-						break;
-					default:
-						std::printf("Invalid wall direction");
-						break;
-				}
+	// 		if(parallel)
+	// 		{
+	// 			switch(wallDirection)
+	// 			{
+	// 				case NORTH:
+	// 					estimatedRightPos = positionFromRaycast(rightReading, RIGHT_DIST_OFFSET, EAST);
+	// 					estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, NORTH);
+	// 					estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, WEST);
+	// 					estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, SOUTH);
+	// 					x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+	// 					y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+	// 					estimated_x = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
+	// 					estimated_y = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
+	// 					break;
+	// 				case SOUTH:
+	// 					estimatedRightPos = positionFromRaycast(rightReading, RIGHT_DIST_OFFSET, WEST);
+	// 					estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, SOUTH);
+	// 					estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, EAST);
+	// 					estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, NORTH);
+	// 					x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+	// 					y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+	// 					estimated_x = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
+	// 					estimated_y = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
+	// 					break;
+	// 				case EAST:
+	// 					estimatedRightPos = positionFromRaycast(rightReading, RIGHT_DIST_OFFSET, SOUTH);
+	// 					estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, EAST);
+	// 					estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, NORTH);
+	// 					estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, WEST);
+	// 					x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+	// 					y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+	// 					estimated_y = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
+	// 					estimated_x = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
+	// 					break;
+	// 				case WEST:
+	// 					estimatedRightPos = positionFromRaycast(rightReading, RIGHT_DIST_OFFSET, NORTH);
+	// 					estimatedFrontPos = positionFromRaycast(frontReading, FRONT_DIST_OFFSET, WEST);
+	// 					estimatedLeftPos = positionFromRaycast(leftReading, LEFT_DIST_OFFSET, SOUTH);
+	// 					estimatedBackPos = positionFromRaycast(backReading, BACK_DIST_OFFSET, EAST);
+	// 					x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+	// 					y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+	// 					estimated_y = (leftConfidence * estimatedLeftPos + rightConfidence *estimatedRightPos)/(leftConfidence+rightConfidence);
+	// 					estimated_x = (frontConfidence * estimatedFrontPos + backConfidence * estimatedBackPos)/(frontConfidence+backConfidence);
+	// 					break;
+	// 				case NE:
+	// 					estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, EAST);
+	// 					estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, NORTH);
+	// 					estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, WEST);
+	// 					estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, SOUTH);
+	// 					y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+	// 					x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+	// 					estimated_y = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
+	// 					estimated_x = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
+	// 					break;
+	// 				case SE:
+	// 					estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, SOUTH);
+	// 					estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, EAST);
+	// 					estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, NORTH);
+	// 					estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, WEST);
+	// 					x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+	// 					y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+	// 					estimated_x = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
+	// 					estimated_y = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
+	// 					break;
+	// 				case NW:
+	// 					estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, NORTH);
+	// 					estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, WEST);
+	// 					estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, SOUTH);
+	// 					estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, EAST);
+	// 					x_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+	// 					y_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+	// 					estimated_x = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
+	// 					estimated_y = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
+	// 					break;
+	// 				case SW:
+	// 					estimatedRightPos = positionFromRaycast(frontRightReading, FRONTRIGHT_DIST_OFFSET, WEST);
+	// 					estimatedFrontPos = positionFromRaycast(frontLeftReading, FRONTLEFT_DIST_OFFSET, SOUTH);
+	// 					estimatedLeftPos = positionFromRaycast(backLeftReading, BACKLEFT_DIST_OFFSET, EAST);
+	// 					estimatedBackPos = positionFromRaycast(backRightReading, BACKRIGHT_DIST_OFFSET, NORTH);
+	// 					y_deviation = fabs(estimatedFrontPos - estimatedBackPos);
+	// 					x_deviation = fabs(estimatedLeftPos - estimatedRightPos);
+	// 					estimated_y = (frontLeftConfidence * estimatedFrontPos + backRightConfidence * estimatedBackPos) / (frontLeftConfidence + backRightConfidence);
+	// 					estimated_x = (backLeftConfidence * estimatedLeftPos + frontRightConfidence * estimatedRightPos) / (backLeftConfidence + frontRightConfidence);
+	// 					break;
+	// 				default:
+	// 					std::printf("Invalid wall direction");
+	// 					break;
+	// 			}
 
-				error_x = fabs(estimated_x - currentPose.x);
-				error_y = fabs(estimated_y - currentPose.y);
+	// 			error_x = fabs(estimated_x - currentPose.x);
+	// 			error_y = fabs(estimated_y - currentPose.y);
 
-				// if(error_x>RAYCAST_RESET_MIN_ERROR && error_x < RAYCAST_RESET_MAX_ERROR)
-				// {
-				// 	chassis.setPose(estimated_x,chassis.getPose().y,chassis.getPose().theta);
-				// }
-				// if(error_y>RAYCAST_RESET_MIN_ERROR && error_y<RAYCAST_RESET_MAX_ERROR)
-				// {
-				// 	chassis.setPose(chassis.getPose().x,estimated_y,chassis.getPose().theta);
-				// }
-				if(x_deviation>=RAYCAST_RESET_MIN_ERROR&&x_deviation<=RAYCAST_RESET_MAX_ERROR&&error_x>0.3)
-				{
-					chassis.setPose(estimated_x, chassis.getPose().y,chassis.getPose().theta);
-					std::printf("X pos reset! %.3f Deviation: %.3f\n",estimated_x,x_deviation);
-				}
-				if(y_deviation>=RAYCAST_RESET_MIN_ERROR&&y_deviation<=RAYCAST_RESET_MAX_ERROR&&error_y>0.3)
-				{
-					chassis.setPose(chassis.getPose().x,estimated_y,chassis.getPose().theta);
-					std::printf("Y pos reset! %.3f Deviation: %.3f\n", estimated_y,y_deviation);
-				}
-			}
-			pros::delay(50);
-		}
-	});
+	// 			// if(error_x>RAYCAST_RESET_MIN_ERROR && error_x < RAYCAST_RESET_MAX_ERROR)
+	// 			// {
+	// 			// 	chassis.setPose(estimated_x,chassis.getPose().y,chassis.getPose().theta);
+	// 			// }
+	// 			// if(error_y>RAYCAST_RESET_MIN_ERROR && error_y<RAYCAST_RESET_MAX_ERROR)
+	// 			// {
+	// 			// 	chassis.setPose(chassis.getPose().x,estimated_y,chassis.getPose().theta);
+	// 			// }
+	// 			if(x_deviation>=RAYCAST_RESET_MIN_ERROR&&x_deviation<=RAYCAST_RESET_MAX_ERROR&&error_x>0.3)
+	// 			{
+	// 				chassis.setPose(estimated_x, chassis.getPose().y,chassis.getPose().theta);
+	// 				std::printf("X pos reset! %.3f Deviation: %.3f\n",estimated_x,x_deviation);
+	// 			}
+	// 			if(y_deviation>=RAYCAST_RESET_MIN_ERROR&&y_deviation<=RAYCAST_RESET_MAX_ERROR&&error_y>0.3)
+	// 			{
+	// 				chassis.setPose(chassis.getPose().x,estimated_y,chassis.getPose().theta);
+	// 				std::printf("Y pos reset! %.3f Deviation: %.3f\n", estimated_y,y_deviation);
+	// 			}
+	// 		}
+	// 		pros::delay(50);
+	// 	}
+	// });
 
 	pros::Task print_coordinates([=](){
 		while(true)
@@ -436,6 +436,9 @@ void autonomous() {
 		case 7:
 			skills();
 			break;
+		case 10:
+			pidTune();
+			break;
 	}
 }
 
@@ -471,11 +474,13 @@ void opcontrol() {
 		{
 			top_intake.move(0);
 		}
+
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1))
 		{
 			front_intake.move(127);
 			intake_2.move(100);
 			hood.set_value(false);
+			intake_up.set_value(false);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
@@ -496,11 +501,13 @@ void opcontrol() {
 			top_intake.move(127);
 			// front_intake.move(-10);
 			// outtake=true;
+			intake_up.set_value(false);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 		{
 			intake_2.move(72);
 			top_intake.move(-80);
+			intake_up.set_value(false);
 		}
 		//  if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_X))
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
@@ -519,6 +526,7 @@ void opcontrol() {
 			baseleftmiddle.move(0);
 			intake_2.move(0);
 			baserightmiddle.move(0);
+			intake_up.set_value(false);
 			// outtake=false;
 		}
 		

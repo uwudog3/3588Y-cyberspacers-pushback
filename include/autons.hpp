@@ -15,6 +15,7 @@ extern void right9ball();
 extern void right7ball();
 extern void rightLowGoal();
 extern void skills();
+extern void pidTune();
 
 extern bool color_sort_on;
 extern bool color_state;
