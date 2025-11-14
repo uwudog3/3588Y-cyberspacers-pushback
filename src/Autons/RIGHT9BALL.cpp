@@ -7,7 +7,6 @@ void right9ball() {
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(back_dist.get() * MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(right_dist.get() * MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH),90);
 
-    pto.set_value(true);
     front_intake.move(127);
     intake_2.move(105);
     top_intake.move(127);
@@ -51,7 +50,6 @@ void right9ball() {
     hood.set_value(true);
     pros::delay(2500);
     matchload.set_value(false);
-    pto.set_value(true);
     front_intake.move(127);
     top_intake.move(127);
     intake_2.move(100);

@@ -7,7 +7,6 @@ void rightLowGoal() {
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(back_dist.get() * MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(right_dist.get() * MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH),90);
 
-    pto.set_value(true);
     front_intake.move(127);
     intake_2.move(105);
     top_intake.move(127);
@@ -31,11 +30,9 @@ void rightLowGoal() {
     intake_2.move( 50);
     intake_up.set_value(true);
     matchload.set_value(true);
-    pto.set_value(true);
     pros::delay(2000);
     intake_up.set_value(false);
     matchload.set_value(false);
-    pto.set_value(true);
     front_intake.move(127);
     top_intake.move(127);
     front_intake.move(127);
@@ -70,7 +67,6 @@ void rightLowGoal() {
     hood.set_value(true);
     pros::delay(2500);
     matchload.set_value(false);
-    pto.set_value(true);
     front_intake.move(127);
     top_intake.move(127);
     intake_2.move(100);

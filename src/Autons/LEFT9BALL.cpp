@@ -7,7 +7,6 @@ void left9ball() {
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(back_dist.get() * MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get() * MM_TO_IN, LEFT_DIST_OFFSET, NORTH),90);
 
-    pto.set_value(true);
     front_intake.move(127);
     intake_2.move(105);
     top_intake.move(127);
@@ -41,16 +40,12 @@ void left9ball() {
     // goal
 
     chassis.moveToPoint(-24, 48, 2000, {.forwards=false,.maxSpeed=127,.minSpeed=80,.earlyExitRange=1},false);
-    pto.set_value(false);
-    baseleftmiddle.move(127);
-    baserightmiddle.move(127);
     front_intake.move(-13);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
     pros::delay(2100);
     matchload.set_value(false);
-    pto.set_value(true);
     front_intake.move(127);
     top_intake.move(127);
     intake_2.move(100);

@@ -31,7 +31,6 @@
 void skills() {
 
     chassis.setPose(positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, WEST), positionFromRaycast(front_dist.get()*MM_TO_IN, FRONT_DIST_OFFSET, SOUTH), 180);
-    pto.set_value(true);
     front_intake.move(127);
     intake_2.move(110);
     top_intake.move(127);
@@ -59,9 +58,6 @@ void skills() {
     chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH), chassis.getPose().theta);
 
     chassis.moveToPoint(20, -48, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=80, .earlyExitRange=1}, false);
-    pto.set_value(false);
-    baseleftmiddle.move(127);
-    baserightmiddle.move(127);
     front_intake.move(-20);
     intake_2.move(127);
     top_intake.move(127);
@@ -69,7 +65,6 @@ void skills() {
     matchload.set_value(true);
 
     pros::delay(3000);
-    pto.set_value(true);
     front_intake.move(127);
     intake_2.move(127);
     top_intake.move(127);
@@ -86,15 +81,11 @@ void skills() {
 
     
     chassis.moveToPoint(21, -48, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=80, .earlyExitRange=1}, false);
-    pto.set_value(false);
-    baseleftmiddle.move(127);
-    baserightmiddle.move(127);
     front_intake.move(-20);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
     pros::delay(3000);
-    pto.set_value(true);
     front_intake.move(127);
     intake_2.move(120);
     top_intake.move(127);
@@ -123,16 +114,12 @@ void skills() {
     chassis.turnToHeading(270, 1000, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, NORTH), chassis.getPose().theta);
     chassis.moveToPoint(-21, 48, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=80, .earlyExitRange=1}, false);
-    pto.set_value(false);
-    baseleftmiddle.move(127);
-    baserightmiddle.move(127);
     front_intake.move(-20);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
     matchload.set_value(true);
     pros::delay(3000);
-    pto.set_value(true);
     front_intake.move(127);
     intake_2.move(-127);
     top_intake.move(127);
@@ -148,15 +135,11 @@ void skills() {
     pros::delay(900);
     
     chassis.moveToPoint(-21, 48, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=80, .earlyExitRange=1},false);
-    pto.set_value(false);
-    baseleftmiddle.move(127);
-    baserightmiddle.move(127);
     front_intake.move(-20);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
     pros::delay(3000);
-    pto.set_value(true);
     front_intake.move(127);
     intake_2.move(-127);
     top_intake.move(127);
