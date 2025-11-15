@@ -26,7 +26,7 @@ void rightLowGoal() {
     front_intake.move(0);
     chassis.moveToPoint(-7, -9, 1000, {.forwards=true, .maxSpeed=60, .minSpeed=45, .earlyExitRange=5}, false);
 
-    intake_2.move( 50);
+    intake_2.move(50);
     intake_up.set_value(true);
     matchload.set_value(true);
     pros::delay(500);
@@ -34,19 +34,18 @@ void rightLowGoal() {
     pros::delay(2000);
     intake_up.set_value(false);
     matchload.set_value(false);
-    front_intake.move(127);
-    top_intake.move(127);
-    front_intake.move(127);
-    intake_2.move(105);
 
     // matchload
     chassis.moveToPoint(-45,-48,3000,{.forwards=false,.maxSpeed=127});
     chassis.waitUntil(20);
+    front_intake.move(127);
+    top_intake.move(127);
+    intake_2.move(105);
     matchload.set_value(true);
     chassis.turnToHeading(270,1000, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, SOUTH), chassis.getPose().theta);
     chassis.moveToPoint(-60, -47.5, 1000, {.forwards=true, .maxSpeed=70,.minSpeed=70});
-    pros::delay(1000);
+    pros::delay(800);
     // left_mg.move(-50);
     // right_mg.move(-50);
     // pros::delay(300);

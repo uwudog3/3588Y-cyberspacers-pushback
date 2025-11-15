@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int selected_auton = LEFTMIDDLEGOAL;
+int selected_auton = RIGHTLOWGOAL;
 bool auton_selected = false;
 bool is_sorting = false;
 
