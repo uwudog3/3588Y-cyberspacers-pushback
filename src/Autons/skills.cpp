@@ -5,7 +5,6 @@
 
 // for going into basket
 
-// pto.set_value(true);
 // front_intake.move(127);
 // intake_2.move(127);
 // top_intake.move(127);
@@ -13,7 +12,6 @@
 
 // for outtaking long goal
 
-// pto.set_value(false);
 // baseleftmiddle.move(127);
 // baserightmiddle.move(127);
 // front_intake.move(-20);

@@ -13,27 +13,23 @@ void leftMiddleGoal() {
     hood.set_value(false);
 
     // pick up trio
-    chassis.moveToPoint(-22, 22, 250, {.maxSpeed=60, .minSpeed = 60, .earlyExitRange = 36});
-    chassis.moveToPoint(-22, 22, 2000, {.maxSpeed = 60, .minSpeed = 60, .earlyExitRange = 5});
+    chassis.moveToPoint(-23, 23, 250, {.maxSpeed=80, .minSpeed = 100, .earlyExitRange = 36});
+    chassis.moveToPoint(-23, 23, 2000, {.maxSpeed = 80, .minSpeed = 100, .earlyExitRange = 5});
 
     // pick up long goal balls
     
-    chassis.moveToPoint(-6, 45, 1200, {.maxSpeed=60, .minSpeed = 5, .earlyExitRange = 1});
+    // chassis.moveToPoint(-7.75, 44.25, 800, {.maxSpeed=80, .minSpeed = 5});
 
     // score middle goal
-    chassis.moveToPoint(-24, 24, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1});
-    chassis.turnToPoint(-8, 8, 500, {.forwards=false});
-    chassis.moveToPoint(-8, 8, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=45, .earlyExitRange=1}, false);
-
-    // front_intake.move(-13);
-    intake_2.move(72);
+    chassis.moveToPoint(-22, 22, 2000, {.forwards=false, .maxSpeed=110});
+    chassis.turnToPoint(-10.75, 10, 500, {.forwards=false});
+    chassis.moveToPoint(-10.75, 10, 2000, {.forwards=false, .maxSpeed=127}, false);
+    front_intake.move(-20);
+    intake_2.move(90);
     top_intake.move(-80);
-    hood.set_value(true);
-    pros::delay(2100);
-    matchload.set_value(false);
+    pros::delay(1000);
     front_intake.move(127);
-    top_intake.move(127);
-    intake_2.move(100);
+    intake_2.move(110);
 
 
     // matchload
@@ -44,17 +40,18 @@ void leftMiddleGoal() {
     pros::delay(100);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, NORTH), chassis.getPose().theta);
     chassis.moveToPoint(-60, 48, 800, {.forwards=true, .maxSpeed=90, .minSpeed=45,.earlyExitRange=1},false);
-    left_mg.move(-50);
-    right_mg.move(-50);
-    pros::delay(300);
-    left_mg.move(45);
-    right_mg.move(45);
-    pros::delay(580);
+    pros::delay(650);
+    // left_mg.move(-50);
+    // right_mg.move(-50);
+    // pros::delay(300);
+    // left_mg.move(45);
+    // right_mg.move(45);
+    // pros::delay(580);
 
     // goal
-
-    chassis.moveToPoint(-24, 48, 2000, {.forwards=false,.maxSpeed=127,.minSpeed=80,.earlyExitRange=1},false);
-    front_intake.move(-13);
+    pros::delay(300);
+    chassis.moveToPoint(-25, 49, 2000, {.forwards=false,.maxSpeed=127,.minSpeed=45, .earlyExitRange=0.75},false);
+    front_intake.move(-20);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
@@ -65,7 +62,7 @@ void leftMiddleGoal() {
     intake_2.move(100);
 
     // descore
-    chassis.moveToPoint(-46, 37, 1500, {.minSpeed=5, .earlyExitRange=1});
+    chassis.moveToPoint(-46, 37.5, 1500, {.minSpeed=5, .earlyExitRange=1});
     chassis.waitUntil(3);
     hood.set_value(false);
     chassis.turnToHeading(90, 1000, {}, false);
