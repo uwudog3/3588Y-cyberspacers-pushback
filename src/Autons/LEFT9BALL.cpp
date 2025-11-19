@@ -58,7 +58,7 @@ void left9ball() {
     intake_2.move(100);
 
     // descore
-    chassis.moveToPoint(-46, 37.25, 1500, {.minSpeed=5, .earlyExitRange=1});
+    chassis.moveToPoint(-46, -37.25, 1500, {.minSpeed=5, .earlyExitRange=1});
     chassis.waitUntil(3);
     hood.set_value(false);
     chassis.turnToHeading(90, 1000, {}, false);
