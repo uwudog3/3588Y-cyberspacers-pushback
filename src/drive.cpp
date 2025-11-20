@@ -1,5 +1,6 @@
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "main.h"
+#include "utils.hpp"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -12,18 +13,18 @@ lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               11.5, // 10 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 4" omnis
                               450, // drivetrain rpm is 360
-                              8 // horizontal drift is 2 (for now)
+                              2 // horizontal drift is 2 (for now)
 );
 
 // imu
 pros::Imu imu(14);
 // horizontal tracking wheel encoder
-pros::Rotation horizontal_encoder(13);
+pros::Rotation horizontal_encoder(-13);
 pros::Rotation vertical_encoder(-12);
 // horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2*(96/((102.7+100.24+100.02+102.48+102.31)/5)), 1.457);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2*(96/((102.7+100.24+100.02+102.48+102.31)/5)), 33*MM_TO_IN);
 // vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2*(96/((99.19+100.47+101.84+99.18+99.64)/5)), 0.354);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2*(96/((99.19+100.47+101.84+99.18+99.64)/5)), 8*MM_TO_IN);
 // odometry settings
 lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs

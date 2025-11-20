@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int selected_auton = RIGHTLOWGOAL;
+int selected_auton = LEFT7BALL;
 bool auton_selected = false;
 bool is_sorting = false;
 
@@ -529,28 +529,24 @@ void opcontrol() {
 		{
 			matchload_state = !matchload_state;
 			matchload.set_value(matchload_state);
-			pros::delay(45);
 		}
 
 		if(odom_pressed && !prev_odom_state)
 		{
 			odom_state = !odom_state;
 			odom.set_value(odom_state);
-			pros::delay(45);
 		}
 
 		if(descore_pressed && !prev_descore_state)
 		{
 			descore_state = !descore_state;
 			descore.set_value(descore_state);
-			pros::delay(45);
 		}
 
 		if(intake_up_pressed && !prev_intake_up_state)
 		{
 			intake_up_state = !intake_up_state;
 			intake_up.set_value(intake_up_state);
-			pros::delay(45);
 		}
 
 		if(color_pressed && !prev_color_state)
