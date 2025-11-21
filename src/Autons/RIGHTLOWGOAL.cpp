@@ -13,38 +13,41 @@ void rightLowGoal() {
     hood.set_value(false);
 
     // pick up trio
-    chassis.moveToPoint(-24, -23, 250, {.maxSpeed=127, .minSpeed=80, .earlyExitRange = 36});
-    chassis.moveToPoint(-24, -23, 2000, {.maxSpeed=80, .minSpeed=80, .earlyExitRange = 5});
+    chassis.moveToPoint(-24, -23, 250, {.maxSpeed=127, .minSpeed=65, .earlyExitRange = 36});
+    chassis.moveToPoint(-24, -23, 2000, {.maxSpeed=65, .minSpeed=65, .earlyExitRange = 5});
 
-    // pick up long goal balls
+    // // pick up long goal balls
     
-    chassis.turnToPoint(-4, -44, 500, {.minSpeed=5, .earlyExitRange=3});
-    chassis.moveToPoint(-4, -44, 1200, {.maxSpeed=60, .minSpeed = 5});
+    // chassis.turnToPoint(-8, -44, 500, {.minSpeed=5, .earlyExitRange=3});
+    // chassis.moveToPoint(-8, -44, 1200, {.maxSpeed=60, .minSpeed = 5});
 
     // score low goal
-    chassis.moveToPoint(-24, -24, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1});
-    chassis.turnToPoint(-7, -9, 500, {.forwards=true});
+    // chassis.moveToPoint(-24, -24, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1});
+    chassis.turnToPoint(-9, -9, 500, {.forwards=true}, false);
     front_intake.move(0);
-    chassis.moveToPoint(-7, -9, 1000, {.forwards=true, .maxSpeed=60, .minSpeed=45, .earlyExitRange=5}, false);
-
-    intake_2.move(50);
     intake_up.set_value(true);
+    chassis.moveToPoint(-9, -9, 1500, {.forwards=true, .maxSpeed=60, .minSpeed=45, .earlyExitRange=5}, false);
+    intake_2.move(0);
     matchload.set_value(true);
-    pros::delay(500);
-    front_intake.move(-81);
-    pros::delay(2000);
+    pros::delay(200);
+    front_intake.move(-64);
+    intake_2.move(50);
+    pros::delay(700);
+    intake_2.move(50);
     intake_up.set_value(false);
     matchload.set_value(false);
 
     // matchload
-    chassis.turnToPoint(-45, -48, 1000, {.forwards=false});
-    chassis.moveToPoint(-45,-48,3000,{.forwards=false,.maxSpeed=127});
+
+    front_intake.move(127);
+    chassis.turnToPoint(-40, -45, 1000, {.forwards=false});
+    chassis.moveToPose(-40,-45,270, 3000,{.forwards=false,.maxSpeed=127, .minSpeed=50});
     chassis.waitUntil(20);
     matchload.set_value(true);
-    chassis.turnToHeading(270,1000, {}, false);
+    chassis.turnToHeading(270,750, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, SOUTH), chassis.getPose().theta);
-    chassis.moveToPoint(-60, -47.5, 1500, {.forwards=true, .maxSpeed=70,.minSpeed=70});
-    pros::delay(1500);
+    chassis.moveToPoint(-60, -47.5, 800, {.forwards=true, .maxSpeed=70,.minSpeed=45});
+    pros::delay(800);
     // left_mg.move(-50);
     // right_mg.move(-50);
     // pros::delay(300);
@@ -54,8 +57,8 @@ void rightLowGoal() {
 
     // goal
 
-    chassis.turnToPoint(-24, -48.5, 500, {.forwards=false, .minSpeed=80, .earlyExitRange=2});
-    chassis.moveToPoint(-24, -48.5, 2000, {.forwards=false,.maxSpeed=127,.minSpeed=45, .earlyExitRange=1},false);
+    chassis.turnToPoint(-24, -48.5, 500, {.forwards=false, .minSpeed=40, .earlyExitRange=2});
+    chassis.moveToPoint(-24, -48.5, 1000, {.forwards=false,.maxSpeed=80,.minSpeed=40, .earlyExitRange=1},false);
     // pto.set_value(false);
     // baseleftmiddle.move(127);
     // baserightmiddle.move(127);
@@ -63,7 +66,7 @@ void rightLowGoal() {
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
-    pros::delay(2500);
+    pros::delay(1500);
     matchload.set_value(false);
     front_intake.move(127);
     top_intake.move(127);
@@ -75,7 +78,7 @@ void rightLowGoal() {
     hood.set_value(false);
     chassis.turnToHeading(270, 1000, {}, false);
     chassis.setPose(positionFromRaycast(front_dist.get()*MM_TO_IN, FRONT_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, SOUTH), chassis.getPose().theta);
-    chassis.moveToPose(-12, -37, 270, 1500, {.forwards=false, .minSpeed=80, .earlyExitRange=3});
+    chassis.moveToPose(-16, -37, 270, 1500, {.forwards=false, .minSpeed=80, .earlyExitRange=3});
     chassis.turnToHeading(-120, 500);
 
     odom.set_value(false);

@@ -461,7 +461,7 @@ void autonomous() {
 void opcontrol() {
 	bool loadertech=false;
 	while (true) {
-		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+		bool intake_up_pressed = false;
 		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
 		bool color_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 

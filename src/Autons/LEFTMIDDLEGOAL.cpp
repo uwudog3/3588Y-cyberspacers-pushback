@@ -21,14 +21,16 @@ void leftMiddleGoal() {
     // chassis.moveToPoint(-7.75, 44.25, 800, {.maxSpeed=80, .minSpeed = 5});
 
     // score middle goal
-    chassis.moveToPoint(-22, 22, 2000, {.forwards=false, .maxSpeed=110});
-    chassis.turnToPoint(-10.75, 10, 500, {.forwards=false});
-    chassis.moveToPoint(-10.75, 10, 2000, {.forwards=false, .maxSpeed=127}, false);
-    front_intake.move(-20);
+    chassis.moveToPoint(-22, 22, 2000, {.forwards=false, .maxSpeed=110, .minSpeed=5});
+    chassis.turnToPoint(-11, 11, 500, {.forwards=false});
+    chassis.moveToPoint(-11, 11, 1000, {.forwards=false, .maxSpeed=60}, false);
+    front_intake.move(-15);
     intake_2.move(90);
     top_intake.move(-80);
-    pros::delay(1000);
+    intake_up.set_value(false);
+    pros::delay(2000);
     front_intake.move(127);
+    top_intake.move(127);
     intake_2.move(110);
 
 
@@ -39,8 +41,8 @@ void leftMiddleGoal() {
     chassis.turnToHeading(270,500, {}, false);
     pros::delay(100);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, NORTH), chassis.getPose().theta);
-    chassis.moveToPoint(-60, 48, 800, {.forwards=true, .maxSpeed=90, .minSpeed=45,.earlyExitRange=1},false);
-    pros::delay(650);
+    chassis.moveToPoint(-60, 48, 800, {.forwards=true, .maxSpeed=90, .minSpeed=45,.earlyExitRange=1},true);
+    pros::delay(800);
     // left_mg.move(-50);
     // right_mg.move(-50);
     // pros::delay(300);
@@ -49,9 +51,8 @@ void leftMiddleGoal() {
     // pros::delay(580);
 
     // goal
-    pros::delay(300);
-    chassis.moveToPoint(-25, 49, 2000, {.forwards=false,.maxSpeed=127,.minSpeed=45, .earlyExitRange=0.75},false);
-    front_intake.move(-20);
+    chassis.moveToPoint(-25, 49, 2000, {.forwards=false,.maxSpeed=45,.minSpeed=45, .earlyExitRange=0.75},false);
+    front_intake.move(-15);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
@@ -62,7 +63,7 @@ void leftMiddleGoal() {
     intake_2.move(100);
 
     // descore
-    chassis.moveToPoint(-46, 37.5, 1500, {.minSpeed=5, .earlyExitRange=1});
+    chassis.moveToPoint(-40, 37.5, 1500, {.minSpeed=5, .earlyExitRange=1});
     chassis.waitUntil(3);
     hood.set_value(false);
     chassis.turnToHeading(90, 1000, {}, false);
@@ -70,7 +71,7 @@ void leftMiddleGoal() {
     chassis.setPose(chassis.getPose().x, positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, NORTH), chassis.getPose().theta);
 
 
-    chassis.moveToPoint(-14, 38, 2000, {.forwards=true, .minSpeed=5, .earlyExitRange = 1});
+    chassis.moveToPose(-10, 36, 90, 2000, {.forwards=true, .minSpeed=5, .earlyExitRange = 1});
     chassis.turnToHeading(120, 500);
 
     odom.set_value(false);

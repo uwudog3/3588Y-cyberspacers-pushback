@@ -18,14 +18,14 @@ void left7ball() {
     chassis.moveToPoint(-24, 23, 2000, {.maxSpeed=80, .minSpeed=80, .earlyExitRange = 5});
 
     // matchload
-    chassis.turnToPoint(-45,48,3000,{.forwards=true,.maxSpeed=127});
+    chassis.turnToPoint(-45,48,1000,{.forwards=true,.maxSpeed=127, .minSpeed=127, .earlyExitRange=3});
     chassis.moveToPoint(-45,48,3000,{.forwards=true,.maxSpeed=127},false);
     chassis.waitUntil(20);
     matchload.set_value(true);
     chassis.turnToHeading(270,1000, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, NORTH), chassis.getPose().theta);
-    chassis.moveToPoint(-60, 47.5, 1500, {.forwards=true, .maxSpeed=70,.minSpeed=70});
-    pros::delay(1500);
+    chassis.moveToPoint(-60, 47.5, 1000, {.forwards=true, .maxSpeed=70,.minSpeed=70});
+    pros::delay(1000);
     // left_mg.move(-50);
     // right_mg.move(-50);
     // pros::delay(300);
@@ -36,7 +36,7 @@ void left7ball() {
     // goal
 
     chassis.turnToPoint(-24, 48.5, 500, {.forwards=false, .minSpeed=80, .earlyExitRange=2});
-    chassis.moveToPoint(-24, 48.5, 2000, {.forwards=false,.maxSpeed=127,.minSpeed=45, .earlyExitRange=1},false);
+    chassis.moveToPoint(-24, 48.5, 1000, {.forwards=false,.maxSpeed=127,.minSpeed=45, .earlyExitRange=1},false);
     // pto.set_value(false);
     // baseleftmiddle.move(127);
     // baserightmiddle.move(127);
@@ -56,7 +56,7 @@ void left7ball() {
     hood.set_value(false);
     chassis.turnToHeading(90, 1000, {}, false);
     chassis.setPose(positionFromRaycast(back_dist.get()*MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, NORTH), chassis.getPose().theta);
-    chassis.moveToPose(-15, 36, 90, 1500, {.forwards=true, .minSpeed=80, .earlyExitRange=3});
+    chassis.moveToPose(-15, 36, 90, 1500, {.forwards=true});
     chassis.turnToHeading(120, 500);
 
     odom.set_value(false);

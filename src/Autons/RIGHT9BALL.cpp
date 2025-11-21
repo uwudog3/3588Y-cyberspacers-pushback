@@ -18,12 +18,12 @@ void right9ball() {
 
     // pick up long goal balls
     
-    chassis.turnToPoint(-4, -44, 500, {.minSpeed=5, .earlyExitRange=3});
-    chassis.moveToPoint(-4, -44, 1200, {.maxSpeed=60, .minSpeed = 5});
+    chassis.turnToPoint(-8, -44, 500, {.minSpeed=5, .earlyExitRange=3});
+    chassis.moveToPoint(-8, -44, 1200, {.maxSpeed=60, .minSpeed = 5});
 
     // matchload
-    chassis.moveToPoint(-24, -36, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=127, .earlyExitRange=5});
-    chassis.moveToPoint(-45,-48,3000,{.forwards=false,.maxSpeed=127});
+    chassis.moveToPoint(-24, -36, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=50, .earlyExitRange=5});
+    chassis.moveToPose(-40,-47,270, 3000,{.forwards=false,.maxSpeed=127, .minSpeed=50});
     chassis.waitUntil(20);
     matchload.set_value(true);
     chassis.turnToHeading(270,1000, {}, false);
@@ -60,7 +60,7 @@ void right9ball() {
     hood.set_value(false);
     chassis.turnToHeading(270, 1000, {}, false);
     chassis.setPose(positionFromRaycast(front_dist.get()*MM_TO_IN, FRONT_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, SOUTH), chassis.getPose().theta);
-    chassis.moveToPose(-12, -37, 270, 1500, {.forwards=false, .minSpeed=80, .earlyExitRange=3});
+    chassis.moveToPose(-16, -37, 270, 1500, {.forwards=false, .minSpeed=80, .earlyExitRange=3});
     chassis.turnToHeading(-120, 500);
 
     odom.set_value(false);
