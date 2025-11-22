@@ -101,10 +101,11 @@ void skills() {
     front_intake.move(127);
     intake_2.move(120);
     top_intake.move(127);
-    hood.set_value(false);
     matchload.set_value(false);
 
     chassis.moveToPoint(36, -24, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=3});
+    chassis.waitUntil(5);
+    hood.set_value(false);
     chassis.moveToPoint(48, 45, 2000, {.forwards=true, .maxSpeed=110, .minSpeed=5, .earlyExitRange=22});
     chassis.turnToHeading(90, 1000, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, NORTH), chassis.getPose().theta);
@@ -206,9 +207,7 @@ void skills() {
 
     chassis.moveToPoint(-36, 30, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=100, .earlyExitRange=5}, true);
     // chassis.turnToPoint(-62, 13, 1000);
-    chassis.moveToPoint(-62, 13, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
-    chassis.waitUntil(20);
-    matchload.set_value(true);
+    chassis.moveToPoint(-62, 15, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
     
     chassis.turnToHeading(190, 500, {}, false);
     pros::delay(500);
