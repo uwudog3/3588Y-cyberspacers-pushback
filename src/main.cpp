@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int selected_auton = RIGHTLOWGOAL;
+int selected_auton = SUPERLOWGOAL;
 bool auton_selected = false;
 bool is_sorting = false;
 
@@ -38,7 +38,10 @@ const char* auton_names[] = {
     "Right 9 Ball",
     "Right 7 Ball",
 	"Right Low Goal",
-    "Skills"
+    "Skills", 
+	"Super Low Goal",
+	"Super Middle Goal",
+	"PID Tune"
 };
 
 //red color hues (0-10 and 343<)
@@ -56,14 +59,14 @@ void on_center_button() {
 void on_left_button() {
     if (!auton_selected) {
         selected_auton--;
-        if (selected_auton < 1) selected_auton = 7; // Wrap to last auton
+        if (selected_auton < 1) selected_auton = 10; // Wrap to last auton
     }
 }
 
 void on_right_button() {
     if (!auton_selected) {
         selected_auton++;
-        if (selected_auton > 7) selected_auton = 1; // Wrap to first auton
+        if (selected_auton > 10) selected_auton = 1; // Wrap to first auton
     }
 }
 
@@ -385,7 +388,10 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+	left_mg.brake();
+	right_mg.brake();
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -413,7 +419,7 @@ void competition_initialize() {
  */
 void autonomous() {
 
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	switch(selected_auton)
 	{
@@ -438,6 +444,12 @@ void autonomous() {
 		case 7:
 			skills();
 			break;
+		case 8:
+			superLowGoal();
+			break;
+		case 9:
+			superMiddleGoal();
+			break;
 		case 10:
 			pidTune();
 			break;
@@ -461,8 +473,8 @@ void autonomous() {
 void opcontrol() {
 	bool loadertech=false;
 	while (true) {
-		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
-		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
+		bool intake_up_pressed = false;
+		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
 		bool color_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 
 		int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -502,7 +514,7 @@ void opcontrol() {
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 		{
 			intake_2.move(72);
-			top_intake.move(-80);
+			top_intake.move(-64);
 			intake_up.set_value(false);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
@@ -526,28 +538,24 @@ void opcontrol() {
 		{
 			matchload_state = !matchload_state;
 			matchload.set_value(matchload_state);
-			pros::delay(45);
 		}
 
 		if(odom_pressed && !prev_odom_state)
 		{
 			odom_state = !odom_state;
 			odom.set_value(odom_state);
-			pros::delay(45);
 		}
 
 		if(descore_pressed && !prev_descore_state)
 		{
 			descore_state = !descore_state;
 			descore.set_value(descore_state);
-			pros::delay(45);
 		}
 
 		if(intake_up_pressed && !prev_intake_up_state)
 		{
 			intake_up_state = !intake_up_state;
 			intake_up.set_value(intake_up_state);
-			pros::delay(45);
 		}
 
 		if(color_pressed && !prev_color_state)

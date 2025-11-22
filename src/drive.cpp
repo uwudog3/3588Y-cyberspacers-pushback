@@ -1,5 +1,7 @@
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "main.h"
+#include "pros/adi.hpp"
+#include "utils.hpp"
 
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
@@ -12,7 +14,7 @@ lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               11.5, // 10 inch track width
                               lemlib::Omniwheel::NEW_325, // using new 4" omnis
                               450, // drivetrain rpm is 360
-                              8 // horizontal drift is 2 (for now)
+                              2 // horizontal drift is 2 (for now)
 );
 
 // imu
@@ -20,20 +22,24 @@ pros::Imu imu(14);
 // horizontal tracking wheel encoder
 pros::Rotation horizontal_encoder(-13);
 pros::Rotation vertical_encoder(-12);
+
+lemlib::TrackingWheel leftTracking(&left_mg, lemlib::Omniwheel::NEW_325, -11.5/2, 450);
+lemlib::TrackingWheel rightTracking(&right_mg, lemlib::Omniwheel::NEW_325, 11.5/2, 450);
+
 // horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2*(96/((102.7+100.24+100.02+102.48+102.31)/5)), 1.457);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2 * 96/102.41, -33*MM_TO_IN); // 96/((102.7+100.24+100.02+102.48+102.31)/5
 // vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2*(96/((99.19+100.47+101.84+99.18+99.64)/5)), 0.354);
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2 * 96/102.058, -8*MM_TO_IN); // 96/((99.19+100.47+101.84+99.18+99.64)/5
 // odometry settings
-lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
-                            nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            &horizontal_tracking_wheel, // horizontal tracking wheel 1
+lemlib::OdomSensors sensors(&leftTracking, // vertical tracking wheel 1, set to null
+                            &rightTracking, // vertical tracking wheel 2, set to nullptr as we are using IMEs
+                            nullptr, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
 
 // lateral PID controller
-lemlib::ControllerSettings lateral_controller(13, // proportional gain (kP)
+lemlib::ControllerSettings lateral_controller(12, // proportional gain (kP)
                                               0.0, // integral gain (kI)
                                               70, // derivative gain (kD)
                                               0, // anti windup
@@ -45,9 +51,9 @@ lemlib::ControllerSettings lateral_controller(13, // proportional gain (kP)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(3, // proportional gain (kP)
+lemlib::ControllerSettings angular_controller(5, // proportional gain (kP)
                                               0.00, // integral gain (kI)
-                                              30, // derivative gain (kD)
+                                              55.5, // derivative gain (kD)
                                               30, // anti windup
                                               1, // small error range, in degrees
                                               300, // small error range timeout, in milliseconds
