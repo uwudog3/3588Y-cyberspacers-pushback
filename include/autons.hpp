@@ -7,6 +7,8 @@
 #define RIGHT7BALL 5
 #define RIGHTLOWGOAL 6
 #define SKILLS 7
+#define SUPERLOWGOAL 8
+#define SUPERMIDDLEGOAL 9
 
 extern void left9ball();
 extern void left7ball();
@@ -16,6 +18,8 @@ extern void right7ball();
 extern void rightLowGoal();
 extern void skills();
 extern void pidTune();
+extern void superLowGoal();
+extern void superMiddleGoal();
 
 extern bool color_sort_on;
 extern bool color_state;

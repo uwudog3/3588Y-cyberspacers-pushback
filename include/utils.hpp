@@ -13,7 +13,7 @@ const float FRONTLEFT_DIST_OFFSET = 5.461;
 const float BACKLEFT_DIST_OFFSET = 7.084;
 
 const float RAYCAST_RESET_ANGLE_RANGE = 20.0;
-const float RAYCAST_RESET_MIN_ERROR = 0.3;
+const float RAYCAST_RESET_MIN_ERROR = 0.0;
 const float RAYCAST_RESET_MAX_ERROR = 3.0;
 
 enum WALL

@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int selected_auton = LEFT7BALL;
+int selected_auton = SUPERLOWGOAL;
 bool auton_selected = false;
 bool is_sorting = false;
 
@@ -38,7 +38,10 @@ const char* auton_names[] = {
     "Right 9 Ball",
     "Right 7 Ball",
 	"Right Low Goal",
-    "Skills"
+    "Skills", 
+	"Super Low Goal",
+	"Super Middle Goal",
+	"PID Tune"
 };
 
 //red color hues (0-10 and 343<)
@@ -56,14 +59,14 @@ void on_center_button() {
 void on_left_button() {
     if (!auton_selected) {
         selected_auton--;
-        if (selected_auton < 1) selected_auton = 7; // Wrap to last auton
+        if (selected_auton < 1) selected_auton = 10; // Wrap to last auton
     }
 }
 
 void on_right_button() {
     if (!auton_selected) {
         selected_auton++;
-        if (selected_auton > 7) selected_auton = 1; // Wrap to first auton
+        if (selected_auton > 10) selected_auton = 1; // Wrap to first auton
     }
 }
 
@@ -385,7 +388,10 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+	left_mg.brake();
+	right_mg.brake();
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -413,7 +419,7 @@ void competition_initialize() {
  */
 void autonomous() {
 
-	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
 
 	switch(selected_auton)
 	{
@@ -437,6 +443,12 @@ void autonomous() {
 			break;
 		case 7:
 			skills();
+			break;
+		case 8:
+			superLowGoal();
+			break;
+		case 9:
+			superMiddleGoal();
 			break;
 		case 10:
 			pidTune();
@@ -504,7 +516,7 @@ void opcontrol() {
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 		{
 			intake_2.move(72);
-			top_intake.move(-80);
+			top_intake.move(-64);
 			intake_up.set_value(false);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))

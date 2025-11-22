@@ -3,7 +3,7 @@
 #include "utils.hpp"
 
 void right9ball() {
-    odom.set_value(false);
+    odom.set_value(true);
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(back_dist.get() * MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(right_dist.get() * MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH),90);
 
@@ -63,7 +63,7 @@ void right9ball() {
     chassis.moveToPose(-16, -37, 270, 1500, {.forwards=false, .minSpeed=80, .earlyExitRange=3});
     chassis.turnToHeading(-120, 500);
 
-    odom.set_value(false);
+    odom.set_value(true);
     matchload.set_value(false);
 
 }
