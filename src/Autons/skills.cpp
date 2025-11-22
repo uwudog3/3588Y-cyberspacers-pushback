@@ -198,7 +198,7 @@ void skills() {
     front_intake.move(0);
     intake_2.move(72); // 72
     top_intake.move(-72);
-    pros::delay(1200);
+    pros::delay(1900);
     top_intake.move(0);
     intake_2.move(0);
     matchload.set_value(false);
@@ -208,7 +208,6 @@ void skills() {
     chassis.moveToPoint(-62, 13, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
     
     chassis.turnToHeading(190, 500, {}, false);
-    odom.set_value(true);
     matchload.set_value(true);
     pros::delay(500);
     left_mg.move(80);

@@ -3,7 +3,6 @@
 #include "utils.hpp"
 
 void leftMiddleGoal() {
-    odom.set_value(false);
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(back_dist.get() * MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get() * MM_TO_IN, LEFT_DIST_OFFSET, NORTH),90);
 
@@ -74,7 +73,6 @@ void leftMiddleGoal() {
     chassis.moveToPose(-10, 36, 90, 2000, {.forwards=true, .minSpeed=5, .earlyExitRange = 1});
     chassis.turnToHeading(120, 500);
 
-    odom.set_value(false);
     matchload.set_value(false);
 
 }

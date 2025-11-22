@@ -18,17 +18,13 @@ extern pros::ADIDigitalOut hood;
 extern pros::ADIDigitalOut matchload;
 extern pros::ADIDigitalOut descore;
 extern pros::ADIDigitalOut trap;
-extern pros::ADIDigitalOut parking;
 
 extern pros::Distance front_dist;
 extern pros::Distance back_dist;
 extern pros::Distance left_dist;
 extern pros::Distance right_dist;
-extern pros::ADIDigitalOut descore;
 extern pros::MotorGroup right_mg;
 extern pros::MotorGroup left_mg;
-extern pros::ADIDigitalOut parking;
-extern pros::ADIDigitalOut odom;
 extern pros::ADIDigitalOut intake_up;
 extern pros::Distance frontleft_dist;
 extern pros::Distance frontright_dist;

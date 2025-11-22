@@ -4,7 +4,6 @@
 #include "utils.hpp"
 
 void left7ball() {
-    odom.set_value(false);
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(back_dist.get() * MM_TO_IN, BACK_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get() * MM_TO_IN, LEFT_DIST_OFFSET, NORTH),90);
 
@@ -59,7 +58,6 @@ void left7ball() {
     chassis.moveToPose(-15, 36, 90, 1500, {.forwards=true});
     chassis.turnToHeading(120, 500);
 
-    odom.set_value(false);
     matchload.set_value(false);
 
 }

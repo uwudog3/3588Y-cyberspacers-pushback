@@ -4,7 +4,6 @@
 
 void superMiddleGoal(){
 
-    odom.set_value(true);
     matchload.set_value(false);
     chassis.setPose(positionFromRaycast(left_dist.get() * MM_TO_IN, LEFT_DIST_OFFSET, WEST), positionFromRaycast(front_dist.get() * MM_TO_IN, FRONT_DIST_OFFSET, NORTH),0);
 
@@ -70,6 +69,5 @@ void superMiddleGoal(){
     // chassis.moveToPose(-14, 37, 90, 1500, {.forwards=true, .minSpeed=80, .earlyExitRange=3});
     // chassis.turnToHeading(120, 500);
 
-    odom.set_value(true);
     matchload.set_value(false);
 }

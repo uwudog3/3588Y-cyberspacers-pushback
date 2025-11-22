@@ -14,13 +14,11 @@ bool is_sorting = false;
 bool outtake = false;
 
 bool matchload_state = false;
-bool odom_state = false;
 bool parking_state = false;
 bool descore_state = false;
 bool intake_up_state = false;
 
 bool prev_matchload_state = false;
-bool prev_odom_state = false;
 bool prev_parking_state = false;
 bool prev_descore_state = false;
 bool prev_intake_up_state = false;
@@ -526,19 +524,12 @@ void opcontrol() {
 			intake_up.set_value(false);
 		}
 
-		bool odom_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
 		bool descore_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
 
 		if(matchload_pressed && !prev_matchload_state)
 		{
 			matchload_state = !matchload_state;
 			matchload.set_value(matchload_state);
-		}
-
-		if(odom_pressed && !prev_odom_state)
-		{
-			odom_state = !odom_state;
-			odom.set_value(odom_state);
 		}
 
 		if(descore_pressed && !prev_descore_state)
@@ -560,7 +551,6 @@ void opcontrol() {
 		}
 
 		prev_matchload_state = matchload_pressed;
-		prev_odom_state = odom_pressed;
 		prev_descore_state = descore_pressed;
 		prev_intake_up_state = intake_up_pressed;
 		prev_color_state = color_pressed;
