@@ -210,7 +210,7 @@ void skills() {
     chassis.turnToHeading(190, 500, {}, false);
     odom.set_value(true);
     matchload.set_value(true);
-    pros::delay(200);
+    pros::delay(500);
     left_mg.move(80);
     right_mg.move(80);
     pros::delay(567);

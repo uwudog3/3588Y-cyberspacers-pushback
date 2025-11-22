@@ -480,7 +480,7 @@ void opcontrol() {
 		int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 	
-		chassis.arcade(leftY, rightX/1.67);
+		chassis.arcade(leftY, rightX/1.75);
 
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&color_sorting==false)
 		{
