@@ -113,7 +113,7 @@ void skills() {
     matchload.set_value(true);
     
     #pragma region 3rd matchload
-    chassis.moveToPoint(61, 47.5, 2000, {.forwards=true, .maxSpeed=60, .minSpeed=15, .earlyExitRange=0.8});
+    chassis.moveToPoint(61, 48, 2000, {.forwards=true, .maxSpeed=60, .minSpeed=15, .earlyExitRange=0.8});
     pros::delay(2000);
     left_mg.move(-40);
     right_mg.move(-40);
@@ -134,7 +134,7 @@ void skills() {
     chassis.moveToPoint(-36, 50, 2000, {.forwards=false, .maxSpeed=110, .minSpeed=5, .earlyExitRange=6});
     chassis.turnToHeading(270, 1000, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, NORTH), chassis.getPose().theta);
-    chassis.moveToPoint(-21, 48, 2000, {.forwards=false, .maxSpeed=80, .minSpeed=10, .earlyExitRange=1}, false);
+    chassis.moveToPoint(-21, 47.5, 2000, {.forwards=false, .maxSpeed=80, .minSpeed=10, .earlyExitRange=1}, false);
     front_intake.move(0);
     intake_2.move(127);
     top_intake.move(127);
@@ -162,7 +162,7 @@ void skills() {
     right_mg.move(45);
     pros::delay(1000);
     
-    chassis.moveToPoint(-21, 48, 2000, {.forwards=false, .maxSpeed=80, .minSpeed=10, .earlyExitRange=3},false);
+    chassis.moveToPoint(-21, 47.5, 2000, {.forwards=false, .maxSpeed=80, .minSpeed=10, .earlyExitRange=3},false);
     matchload.set_value(false);
     front_intake.move(0);
     intake_2.move(127);
@@ -209,7 +209,7 @@ void skills() {
 
     chassis.moveToPoint(-36, 30, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=100, .earlyExitRange=5}, true);
     // chassis.turnToPoint(-62, 13, 1000);
-    chassis.moveToPoint(-62, 15, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
+    chassis.moveToPoint(-60, 15, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
     
     chassis.turnToHeading(190, 500, {}, false);
     intake_2.move(127);
@@ -217,9 +217,9 @@ void skills() {
     pros::delay(500);
     left_mg.move(80);
     right_mg.move(80);
-    pros::delay(700);
+    pros::delay(400);
     matchload.set_value(false);
-    pros::delay(567);
+    pros::delay(867);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
     left_mg.move(-20);
