@@ -7,7 +7,7 @@
 #include "pros/rtos.hpp"
 #include "utils.hpp"
 
-int selected_auton = SUPERLOWGOAL;
+int selected_auton = SKILLS;
 bool auton_selected = false;
 bool is_sorting = false;
 
@@ -473,14 +473,14 @@ void autonomous() {
 void opcontrol() {
 	bool loadertech=false;
 	while (true) {
-		bool intake_up_pressed = false;
-		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
+		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
 		bool color_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 
 		int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 	
-		chassis.arcade(leftY, rightX);
+		chassis.arcade(leftY, rightX/1.67);
 
 		if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)&&color_sorting==false)
 		{
@@ -513,14 +513,9 @@ void opcontrol() {
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
 		{
-			intake_2.move(72);
-			top_intake.move(-64);
+			intake_2.move(65);
+			top_intake.move(-30);
 			intake_up.set_value(false);
-		}
-		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
-		{
-			intake_up.set_value(false);
-			pros::delay(45);
 		}
 		else
 		{
@@ -556,6 +551,7 @@ void opcontrol() {
 		{
 			intake_up_state = !intake_up_state;
 			intake_up.set_value(intake_up_state);
+			pros::delay(80);
 		}
 
 		if(color_pressed && !prev_color_state)

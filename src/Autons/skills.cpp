@@ -35,28 +35,35 @@ void skills() {
     hood.set_value(false);
     matchload.set_value(true);
 
-    chassis.moveToPoint(-48, -46, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1});
+    chassis.moveToPoint(-48, -46, 2000, {.forwards=true, .maxSpeed=90, .minSpeed=5, .earlyExitRange=17});
     chassis.turnToHeading(270, 1000, {},false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, SOUTH), chassis.getPose().theta);
     
     #pragma region 1st matchload
-    chassis.moveToPoint(-62, -51, 1500, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1}, false);
-    left_mg.move(-50);
-    right_mg.move(-50);
-    pros::delay(100);
+    chassis.moveToPoint(-61, -48, 2000, {.forwards=true, .maxSpeed=60, .minSpeed=15, .earlyExitRange=1});
+    pros::delay(2000);
+    left_mg.move(-40);
+    right_mg.move(-40);
+    pros::delay(200);
     left_mg.move(45);
     right_mg.move(45);
-    pros::delay(900);
+    pros::delay(300);
+    left_mg.move(-40);
+    right_mg.move(-40);
+    pros::delay(200);
+    left_mg.move(45);
+    right_mg.move(45);
+    pros::delay(1000);
 
-    chassis.moveToPoint(-48, -60, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=3});
+    chassis.moveToPoint(-42, -60, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=3});
     matchload.set_value(false);
-    chassis.moveToPoint(34, -62, 6000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=3});
-    chassis.moveToPoint(40, -45, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1});
+    chassis.moveToPoint(28, -62, 6000, {.forwards=false, .maxSpeed=110, .minSpeed=5, .earlyExitRange=3});
+    chassis.moveToPoint(34, -45, 2000, {.forwards=false, .maxSpeed=110, .minSpeed=5, .earlyExitRange=5});
     chassis.turnToHeading(90, 1000, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, SOUTH), chassis.getPose().theta);
 
-    chassis.moveToPoint(20, -48, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=80, .earlyExitRange=1}, false);
-    front_intake.move(-20);
+    chassis.moveToPoint(21, -48, 2000, {.forwards=false, .maxSpeed=80, .minSpeed=5, .earlyExitRange=2.5}, false);
+    front_intake.move(0);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
@@ -69,17 +76,24 @@ void skills() {
     hood.set_value(false);
 
     #pragma region 2nd matchload
-    chassis.moveToPoint(62, -48, 1500, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1}, false);
-    left_mg.move(-50);
-    right_mg.move(-50);
-    pros::delay(100);
+    chassis.moveToPoint(61, -49.5, 2000, {.forwards=true, .maxSpeed=60, .minSpeed=15, .earlyExitRange=1});
+    pros::delay(2000);
+    left_mg.move(-40);
+    right_mg.move(-40);
+    pros::delay(200);
     left_mg.move(45);
     right_mg.move(45);
-    pros::delay(900);
+    pros::delay(300);
+    left_mg.move(-40);
+    right_mg.move(-40);
+    pros::delay(200);
+    left_mg.move(45);
+    right_mg.move(45);
+    pros::delay(1000);
 
     
-    chassis.moveToPoint(21, -48, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=80, .earlyExitRange=1}, false);
-    front_intake.move(-20);
+    chassis.moveToPoint(21, -49, 2000, {.forwards=false, .maxSpeed=80, .minSpeed=5, .earlyExitRange=1.5}, false);
+    front_intake.move(0);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
@@ -88,31 +102,39 @@ void skills() {
     intake_2.move(120);
     top_intake.move(127);
     hood.set_value(false);
+    matchload.set_value(false);
 
-    chassis.moveToPoint(40, -24, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=3});
-    chassis.moveToPoint(48, 45, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1});
+    chassis.moveToPoint(36, -24, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=3});
+    chassis.moveToPoint(48, 45, 2000, {.forwards=true, .maxSpeed=110, .minSpeed=5, .earlyExitRange=22});
     chassis.turnToHeading(90, 1000, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, NORTH), chassis.getPose().theta);
 
     matchload.set_value(true);
     
     #pragma region 3rd matchload
-    chassis.moveToPoint(62, 48, 1500, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1}, false);
-    left_mg.move(-50);
-    right_mg.move(-50);
-    pros::delay(100);
+    chassis.moveToPoint(61, 47.5, 2000, {.forwards=true, .maxSpeed=60, .minSpeed=15, .earlyExitRange=1});
+    pros::delay(2000);
+    left_mg.move(-40);
+    right_mg.move(-40);
+    pros::delay(200);
     left_mg.move(45);
     right_mg.move(45);
-    pros::delay(900);
+    pros::delay(300);
+    left_mg.move(-40);
+    right_mg.move(-40);
+    pros::delay(200);
+    left_mg.move(45);
+    right_mg.move(45);
+    pros::delay(1000);
     
     chassis.moveToPoint(34, 65, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=3});
     matchload.set_value(false);
-    chassis.moveToPoint(-24, 63, 6000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=3});
-    chassis.moveToPoint(-40, 47, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1});
+    chassis.moveToPoint(-24, 63, 6000, {.forwards=false, .maxSpeed=110, .minSpeed=5, .earlyExitRange=3});
+    chassis.moveToPoint(-38, 50, 2000, {.forwards=false, .maxSpeed=110, .minSpeed=5, .earlyExitRange=6});
     chassis.turnToHeading(270, 1000, {}, false);
     chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, NORTH), chassis.getPose().theta);
-    chassis.moveToPoint(-21, 48, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=80, .earlyExitRange=1}, false);
-    front_intake.move(-20);
+    chassis.moveToPoint(-21, 48, 2000, {.forwards=false, .maxSpeed=80, .minSpeed=5, .earlyExitRange=1}, false);
+    front_intake.move(0);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
@@ -124,16 +146,24 @@ void skills() {
     hood.set_value(false);
 
     #pragma region 4th matchload    
-    chassis.moveToPoint(-62, 48, 1500, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1}, false);
-    left_mg.move(-50);
-    right_mg.move(-50);
-    pros::delay(100);
+    chassis.moveToPoint(-61, 48, 2000, {.forwards=true, .maxSpeed=60, .minSpeed=15, .earlyExitRange=1});
+    pros::delay(2000);
+    left_mg.move(-40);
+    right_mg.move(-40);
+    pros::delay(200);
     left_mg.move(45);
     right_mg.move(45);
-    pros::delay(900);
+    pros::delay(300);
+    left_mg.move(-40);
+    right_mg.move(-40);
+    pros::delay(200);
+    left_mg.move(45);
+    right_mg.move(45);
+    pros::delay(1000);
     
-    chassis.moveToPoint(-21, 48, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=80, .earlyExitRange=1},false);
-    front_intake.move(-20);
+    chassis.moveToPoint(-21, 48, 2000, {.forwards=false, .maxSpeed=80, .minSpeed=5, .earlyExitRange=3},false);
+    matchload.set_value(false);
+    front_intake.move(0);
     intake_2.move(127);
     top_intake.move(127);
     hood.set_value(true);
@@ -142,17 +172,59 @@ void skills() {
     intake_2.move(-127);
     top_intake.move(127);
     hood.set_value(false);
-    matchload.set_value(false);
 
     // park
 
-    chassis.moveToPose(-63, 12, 180, 1000,{.minSpeed=100},false);
+    chassis.turnToHeading(270, 1000, {}, false);
+    chassis.setPose(chassis.getPose().x, positionFromRaycast(right_dist.get()*MM_TO_IN,RIGHT_DIST_OFFSET,NORTH),chassis.getPose().theta);
+    // chassis.setPose(positionFromRaycast(front_dist.get()*MM_TO_IN, FRONT_DIST_OFFSET, WEST), positionFromRaycast(right_dist.get()*MM_TO_IN, RIGHT_DIST_OFFSET, NORTH), 270);
+
+    front_intake.move(127);
+    top_intake.move(120);
+    intake_2.move(110);
+    chassis.moveToPoint(-38, 48, 2000, {.forwards=true, .maxSpeed=127}, true);
+    chassis.turnToPoint(-20, 20, 1000);
+    chassis.moveToPoint(-20, 20, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
+    // chassis.moveToPoint(-38, -7, 2000, {.forwards=true, .maxSpeed=100, .minSpeed=5, .earlyExitRange=5}, true);
+    // chassis.moveToPoint(-18, -30, 2000, {.forwards=true, .maxSpeed=100, .minSpeed=5, .earlyExitRange=5}, true);
+    // chassis.turnToPoint(-24, -24, 1000);
+    // chassis.moveToPoint(-24, -24, 2000, {.forwards=true, .maxSpeed=100}, true);
+    // chassis.turnToPoint(-24, 24, 1000, {.forwards=false});
+    // chassis.moveToPoint(-24, 24, 2000, {.forwards=false, .maxSpeed=100}, true);
+    
+    chassis.turnToPoint(-10, 10, 2000, {.forwards=false});
+    chassis.moveToPoint(-10, 10, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1}, false);
+    pros::delay(200);
+    front_intake.move(0);
+    intake_2.move(72); // 72
+    top_intake.move(-72);
+    pros::delay(1200);
+    top_intake.move(0);
+    intake_2.move(0);
+    matchload.set_value(false);
+
+    chassis.moveToPoint(-36, 30, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=100, .earlyExitRange=5}, true);
+    // chassis.turnToPoint(-62, 13, 1000);
+    chassis.moveToPoint(-62, 13, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
+    
+    chassis.turnToHeading(190, 500, {}, false);
     odom.set_value(true);
-    left_mg.move(127);
-    right_mg.move(127);
-    pros::delay(700);
-    left_mg.move(0);
-    right_mg.move(0);
+    matchload.set_value(true);
+    pros::delay(200);
+    left_mg.move(80);
+    right_mg.move(80);
+    pros::delay(567);
+    matchload.set_value(false);
+    pros::delay(567);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+    left_mg.move(-20);
+    right_mg.move(-20);
+    pros::delay(1000);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+    chassis.setBrakeMode(pros::E_MOTOR_BRAKE_BRAKE);
+    chassis.turnToHeading(90, 1000, {}, false);
+    pros::delay(500);
 
     // Get middle mixed balls after 4th matchload
 
