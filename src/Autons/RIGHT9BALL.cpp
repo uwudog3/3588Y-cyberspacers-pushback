@@ -51,7 +51,7 @@ void right9ball() {
     matchload.set_value(false);
     front_intake.move(127);
     top_intake.move(127);
-    intake_2.move(100);
+    intake_2.move(105);
 
     // descore
     chassis.moveToPoint(-36, -37, 1800, {.maxSpeed=80});

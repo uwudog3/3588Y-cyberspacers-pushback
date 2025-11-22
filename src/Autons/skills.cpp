@@ -144,17 +144,27 @@ void skills() {
     hood.set_value(false);
     matchload.set_value(false);
 
+    // park
+
+    chassis.moveToPose(-63, 12, 180, 1000,{.minSpeed=100},false);
+    odom.set_value(true);
+    left_mg.move(127);
+    right_mg.move(127);
+    pros::delay(700);
+    left_mg.move(0);
+    right_mg.move(0);
+
     // Get middle mixed balls after 4th matchload
 
-    chassis.moveToPoint(-40,45,2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
-    chassis.moveToPoint(-23,23,2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
-    chassis.turnToPoint(-23.5, -28, 500);
-    chassis.moveToPoint(-23.5, -28, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
-    chassis.moveToPoint(-36,36,2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1}, true);
-    chassis.turnToHeading(270, 1000, {}, false);
-    chassis.setPose(positionFromRaycast(front_dist.get()*MM_TO_IN, FRONT_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, NORTH), chassis.getPose().theta);
-    chassis.turnToPoint(-8, 8, 1000, {.forwards=false});
-    chassis.moveToPoint(-8, 8, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=50, .earlyExitRange=1}, true);
-    intake_2.move(72);
-	top_intake.move(-80);
+    // chassis.moveToPoint(-40,45,2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
+    // chassis.moveToPoint(-23,23,2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
+    // chassis.turnToPoint(-23.5, -28, 500);
+    // chassis.moveToPoint(-23.5, -28, 2000, {.forwards=true, .maxSpeed=127, .minSpeed=5, .earlyExitRange=5}, true);
+    // chassis.moveToPoint(-36,36,2000, {.forwards=false, .maxSpeed=127, .minSpeed=5, .earlyExitRange=1}, true);
+    // chassis.turnToHeading(270, 1000, {}, false);
+    // chassis.setPose(positionFromRaycast(front_dist.get()*MM_TO_IN, FRONT_DIST_OFFSET, WEST), positionFromRaycast(left_dist.get()*MM_TO_IN, LEFT_DIST_OFFSET, NORTH), chassis.getPose().theta);
+    // chassis.turnToPoint(-8, 8, 1000, {.forwards=false});
+    // chassis.moveToPoint(-8, 8, 2000, {.forwards=false, .maxSpeed=127, .minSpeed=50, .earlyExitRange=1}, true);
+    // intake_2.move(72);
+	// top_intake.move(-80);
 }

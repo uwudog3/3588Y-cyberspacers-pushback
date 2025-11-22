@@ -461,8 +461,8 @@ void autonomous() {
 void opcontrol() {
 	bool loadertech=false;
 	while (true) {
-		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
-		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
+		bool intake_up_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_B);
+		bool matchload_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_A);
 		bool color_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP);
 
 		int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
@@ -490,8 +490,6 @@ void opcontrol() {
 		{
 			front_intake.move(-81);
 			intake_2.move( 50);
-			intake_up.set_value(true);
-			matchload.set_value(true);
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
 		{
@@ -509,7 +507,6 @@ void opcontrol() {
 		}
 		else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B))
 		{
-			matchload.set_value(false);
 			intake_up.set_value(false);
 			pros::delay(45);
 		}
@@ -522,7 +519,7 @@ void opcontrol() {
 			intake_up.set_value(false);
 		}
 
-		bool odom_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT);
+		bool odom_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y);
 		bool descore_pressed = controller.get_digital(pros::E_CONTROLLER_DIGITAL_X);
 
 		if(matchload_pressed && !prev_matchload_state)
@@ -565,6 +562,6 @@ void opcontrol() {
 		prev_color_state = color_pressed;
 
 		//}
-		pros::delay(15); // 25 ms = 0.025 seconds
+		pros::delay(10); // 25 ms = 0.025 seconds
 	}
 }
